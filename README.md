@@ -36,6 +36,7 @@ Reload the Hammerspoon configuration by clicking on the Hammerspoon icon in the 
 
 
 - `ctrl + alt + cmd + M` Maximise current window
+- `ctrl + alt + cmd + F` Toggle full screen for current window
 - `ctrl + alt + cmd + C` Centralize current window
 - `ctrl + alt + cmd + N` Move current window to next screen
 
