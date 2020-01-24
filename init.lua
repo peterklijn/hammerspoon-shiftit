@@ -73,6 +73,7 @@ hs.hotkey.bind(mash, '4', function() hs.window.focusedWindow():move(units.botrig
 
 hs.hotkey.bind(mash, 'm', function() hs.window.focusedWindow():move(units.maximum, nil, true, 0) end)
 hs.hotkey.bind(mash, 'f', function() hs.window.focusedWindow():toggleFullScreen() end)
+hs.hotkey.bind(mash, 'z', function() hs.window.focusedWindow():toggleZoom() end)
 hs.hotkey.bind(mash, 'c', function() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end)
 hs.hotkey.bind(mash, 'n', function() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(),false, true, 0) end)
 
