@@ -22,31 +22,43 @@ function resizeWindowInSteps(increment)
   w = window.w
   h = window.h
   if increment then
-    x = math.max(screen.x, window.x - wStep)
-    y = math.max(screen.y, window.y - hStep)
-    w = math.min(screen.w - x + screen.x, window.w + wStep * 2)
-    h = math.min(screen.h - y + screen.y, window.h + hStep * 2)
+    xu = math.max(screen.x, x - wStep)
+    w = w + (x-xu)
+    x=xu
+    yu = math.max(screen.y, y - hStep)
+    h = h + (y - yu)
+    y = yu
+    w = math.min(screen.w - x + screen.x, w + wStep)
+    h = math.min(screen.h - y + screen.y, h + hStep)
   else
     noChange = true
     notMinWidth = w > wStep * 3
     notMinHeight = h > hStep * 3
-    if x > screen.x and notMinWidth then
+    
+    snapLeft = x <= screen.x
+    snapTop = y <= screen.y
+    -- add one pixel in case of odd number of pixels
+    snapRight = (x + w + 1) >= screen.w
+    snapBottom = (y + h + 1) >= screen.h
+
+    b2n = { [true]=1, [false]=0 }
+    totalSnaps = b2n[snapLeft] + b2n[snapRight] + b2n[snapTop] + b2n[snapBottom]
+
+    if notMinWidth and (totalSnaps <= 1 or not snapLeft) then
       x = x + wStep
       w = w - wStep
       noChange = false
     end
-    if y > screen.y and notMinHeight then
+    if notMinHeight and (totalSnaps <= 1 or not snapTop) then
       y = y + hStep
       h = h - hStep
       noChange = false
     end
-    -- add one pixel in case of odd number of pixels
-    if (x + w + 1) < screen.w and notMinWidth then
+    if notMinWidth and (totalSnaps <= 1 or not snapRight) then
       w = w - wStep
       noChange = false
     end
-    -- add one pixel in case of odd number of pixels
-    if (y + h + 1) < screen.h and notMinHeight then
+    if notMinHeight and (totalSnaps <= 1 or not snapBottom) then
       h = h - hStep
       noChange = false
     end
