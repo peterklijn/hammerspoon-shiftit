@@ -38,8 +38,8 @@ function resizeWindowInSteps(increment)
     snapLeft = x <= screen.x
     snapTop = y <= screen.y
     -- add one pixel in case of odd number of pixels
-    snapRight = (x + w + 1) >= screen.w
-    snapBottom = (y + h + 1) >= screen.h
+    snapRight = (x + w + 1) >= (screen.x + screen.w)
+    snapBottom = (y + h + 1) >= (screen.y + screen.h)
 
     b2n = { [true]=1, [false]=0 }
     totalSnaps = b2n[snapLeft] + b2n[snapRight] + b2n[snapTop] + b2n[snapBottom]
