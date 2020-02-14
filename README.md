@@ -18,7 +18,7 @@ Verify that you already have a Hammerspoon configuration by going to `~/.hammers
 **Step 2**
 
 If you use [SpoonInstall](https://www.hammerspoon.org/Spoons/SpoonInstall.html):
- - Load a spoon as following using the repository [https://github.com/peterkljin/hammerspoon-shiftit](https://github.com/peterkljin/hammerspoon-shiftit):
+ - Load a spoon as following using the repository [https://github.com/peterklijn/hammerspoon-shiftit](https://github.com/peterklijn/hammerspoon-shiftit):
  - Add this config to your `~/.hammerspoon/init.lua`
  ```lua
 SpoonInstall:andUse("HammerspoonShiftIt", {
@@ -29,7 +29,7 @@ SpoonInstall:andUse("HammerspoonShiftIt", {
 ```
 
 Or alternatively use a classic way:
- - Download and install [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
+ - Download and install [https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
  - Add the following configuration to your `~/.hammerspoon/init.lua`
 
 ```lua
