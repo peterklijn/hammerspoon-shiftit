@@ -21,7 +21,7 @@ If you use [SpoonInstall](https://www.hammerspoon.org/Spoons/SpoonInstall.html):
  - Load a spoon as following using the repository [https://github.com/peterkljin/hammerspoon-shiftit](https://github.com/peterkljin/hammerspoon-shiftit):
  - Add this config to your `~/.hammerspoon/init.lua`
  ```lua
-SpoonInstall:andUse("HammerspoonShiftit", {
+SpoonInstall:andUse("HammerspoonShiftIt", {
     hotkeys = { 
         ...
     }
@@ -29,13 +29,13 @@ SpoonInstall:andUse("HammerspoonShiftit", {
 ```
 
 Or alternatively use a classic way:
- - Download and install [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftit.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftit.spoon.zip)
+ - Download and install [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
  - Add the following configuration to your `~/.hammerspoon/init.lua`
 
 ```lua
-hs.loadSpoon("HammerspoonShiftit")
-spoon.HammerspoonShiftit:bindHotkeys({
-     ...
+hs.loadSpoon("HammerspoonShiftIt")
+spoon.HammerspoonShiftIt:bindHotkeys({
+     --- your mapping here
 });
 ```
 
@@ -70,18 +70,18 @@ The default key mapping looks like
 You can pass any part of overrides of this configuration to `bindHotkeys()` function.
 E.g. 
 ```lua
-spoon.HammerspoonShiftit:bindHotkeys({
+spoon.HammerspoonShiftIt:bindHotkeys({
   upleft = {{ 'ctrl', 'alt', 'cmd' }, 'q' },
   upright = {{ 'ctrl', 'alt', 'cmd' }, 'w' },
 });
 ```
 or
 ```lua
-spoon.HammerspoonShiftit:bindHotkeys({});
+spoon.HammerspoonShiftIt:bindHotkeys({});
 ```
 or
 ```lua
-spoon.HammerspoonShiftit:bindHotkeys(nil);
+spoon.HammerspoonShiftIt:bindHotkeys(nil);
 ```
 
 ## Usage (default keys)

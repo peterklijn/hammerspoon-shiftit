@@ -1,14 +1,14 @@
---- === HammerspoonShiftit ===
+--- === HammerspoonShiftIt ===
 ---
---- Manages windows and positions in MacOS with key binding from Shiftit.
+--- Manages windows and positions in MacOS with key binding from ShiftIt.
 ---
---- Download: [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftit.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftit.spoon.zip)
+--- Download: [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
 
 local obj = {}
 obj.__index = obj
 
 -- Metadata
-obj.name = "HammerspoonShiftit"
+obj.name = "HammerspoonShiftIt"
 obj.version = "1.0"
 obj.author = "Peter Klijn"
 obj.homepage = "https://github.com/peterklijn/hammerspoon-shiftit"
@@ -128,9 +128,9 @@ function obj:nextScreen() hs.window.focusedWindow():moveToScreen(hs.window.focus
 function obj:resizeOut() resizeWindowInSteps(true) end
 function obj:resizeIn() resizeWindowInSteps(false) end
 
---- HammerspoonShiftit:bindHotkeys(mapping)
+--- HammerspoonShiftIt:bindHotkeys(mapping)
 --- Method
---- Binds hotkeys for HammerspoonShiftit
+--- Binds hotkeys for HammerspoonShiftIt
 ---
 --- Parameters:
 ---  * mapping - A table containing hotkey modifier/key details (everything is optional) for the following items:
