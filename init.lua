@@ -1,8 +1,8 @@
---- === HammerspoonShiftIt ===
+--- === Hammerspoon ShiftIt ===
 ---
 --- Manages windows and positions in MacOS with key binding from ShiftIt.
 ---
---- Download: [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
+--- Download: [https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip)
 
 local obj = {}
 obj.__index = obj

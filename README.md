@@ -1,88 +1,42 @@
-# HammerspoonShiftIt
+# Hammerspoon ShiftIt
 
 A [ShiftIt](https://github.com/fikovnik/ShiftIt) like [Hammerspoon](http://www.hammerspoon.org) window management configuration.
 
 ## Installation
 
-**Step 0**
+**Step 1**
 
-Install Hammerspoon if you haven't yet. One of the ways to do it:
+Install Hammerspoon if you haven't yet. Download the [latest release here](https://github.com/Hammerspoon/hammerspoon/releases/latest) and drag it to `/Applications`.
+
+Alternatively you can install it using brew:
 ```bash
 brew cask install hammerspoon 
 ```
 
-**Step 1**
-
-Verify that you already have a Hammerspoon configuration by going to `~/.hammerspoon` and look for an `init.lua` file. If it doesn't exist, create it.
-
 **Step 2**
 
-If you use [SpoonInstall](https://www.hammerspoon.org/Spoons/SpoonInstall.html):
- - Load a spoon as following using the repository [https://github.com/peterklijn/hammerspoon-shiftit](https://github.com/peterklijn/hammerspoon-shiftit):
- - Add this config to your `~/.hammerspoon/init.lua`
- ```lua
-SpoonInstall:andUse("HammerspoonShiftIt", {
-    hotkeys = { 
-        ...
-    }
-})
-```
+Make sure Hammerspoon is started (You should see the a Hammerspoon logo in your menubar).
 
-Or alternatively use a classic way:
- - Download and install [https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
- - Add the following configuration to your `~/.hammerspoon/init.lua`
+Download the [ShiftIt spoon](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip). Unzip it and open the spoon.
 
-```lua
-hs.loadSpoon("HammerspoonShiftIt")
-spoon.HammerspoonShiftIt:bindHotkeys({
-     --- your mapping here
-});
-```
+Hammerspoon should prompt that the newly installed spoon is now available.
+
+*Alternatively you can use [SpoonInstall](#spooninstall)*
 
 **Step 3**
 
-Reload the Hammerspoon configuration by clicking on the Hammerspoon icon in the menu bar and selecting 'Reload Config'.
+Click on the Hammerspoon menubar icon and click on 'Open Config'. An `init.lua` file should now open in your editor of choice.
 
-## Configuration
+Paste the following configuration in the `init.lua` file, save it and close it.
 
-The default key mapping looks like 
 ```lua
-{
-  left = {{ 'ctrl', 'alt', 'cmd' }, 'left' },
-  right = {{ 'ctrl', 'alt', 'cmd' }, 'right' },
-  up = {{ 'ctrl', 'alt', 'cmd' }, 'up' },
-  down = {{ 'ctrl', 'alt', 'cmd' }, 'down' },
-  upleft = {{ 'ctrl', 'alt', 'cmd' }, '1' },
-  upright = {{ 'ctrl', 'alt', 'cmd' }, '2' },
-  botleft = {{ 'ctrl', 'alt', 'cmd' }, '3' },
-  botright = {{ 'ctrl', 'alt', 'cmd' }, '4' },
-  maximum = {{ 'ctrl', 'alt', 'cmd' }, 'm' },
-  toggleFullScreen = {{ 'ctrl', 'alt', 'cmd' }, 'f' },
-  toggleZoom = {{ 'ctrl', 'alt', 'cmd' }, 'z' },
-  center = {{ 'ctrl', 'alt', 'cmd' }, 'c' },
-  nextScreen = {{ 'ctrl', 'alt', 'cmd' }, 'n' },
-  resizeOut = {{ 'ctrl', 'alt', 'cmd' }, '=' },
-  resizeIn = {{ 'ctrl', 'alt', 'cmd' }, '-' }
-}
-
+hs.loadSpoon("ShiftIt")
+spoon.ShiftIt:bindHotkeys({})
 ```
 
-You can pass any part of overrides of this configuration to `bindHotkeys()` function.
-E.g. 
-```lua
-spoon.HammerspoonShiftIt:bindHotkeys({
-  upleft = {{ 'ctrl', 'alt', 'cmd' }, 'q' },
-  upright = {{ 'ctrl', 'alt', 'cmd' }, 'w' },
-});
-```
-or
-```lua
-spoon.HammerspoonShiftIt:bindHotkeys({});
-```
-or
-```lua
-spoon.HammerspoonShiftIt:bindHotkeys(nil);
-```
+Click on the Hammerspoon menubar icon again, and click on 'Reload Config'.
+
+The ShiftIt spoon is now ready to use, enjoy.
 
 ## Usage (default keys)
 
@@ -107,3 +61,50 @@ spoon.HammerspoonShiftIt:bindHotkeys(nil);
 
 - `ctrl + alt + cmd + -` Make current window smaller
 - `ctrl + alt + cmd + =` Make current window bigger
+
+## Configuration
+
+The default key mapping looks like this:
+
+```lua
+{
+  left = {{ 'ctrl', 'alt', 'cmd' }, 'left' },
+  right = {{ 'ctrl', 'alt', 'cmd' }, 'right' },
+  up = {{ 'ctrl', 'alt', 'cmd' }, 'up' },
+  down = {{ 'ctrl', 'alt', 'cmd' }, 'down' },
+  upleft = {{ 'ctrl', 'alt', 'cmd' }, '1' },
+  upright = {{ 'ctrl', 'alt', 'cmd' }, '2' },
+  botleft = {{ 'ctrl', 'alt', 'cmd' }, '3' },
+  botright = {{ 'ctrl', 'alt', 'cmd' }, '4' },
+  maximum = {{ 'ctrl', 'alt', 'cmd' }, 'm' },
+  toggleFullScreen = {{ 'ctrl', 'alt', 'cmd' }, 'f' },
+  toggleZoom = {{ 'ctrl', 'alt', 'cmd' }, 'z' },
+  center = {{ 'ctrl', 'alt', 'cmd' }, 'c' },
+  nextScreen = {{ 'ctrl', 'alt', 'cmd' }, 'n' },
+  resizeOut = {{ 'ctrl', 'alt', 'cmd' }, '=' },
+  resizeIn = {{ 'ctrl', 'alt', 'cmd' }, '-' }
+}
+```
+
+### Overriding key mappings
+
+You can pass the part of the key mappings that you want to override to the `bindHotkeys()` function. For example:
+
+```lua
+spoon.ShiftIt:bindHotkeys({
+  upleft = {{ 'ctrl', 'alt', 'cmd' }, 'q' },
+  upright = {{ 'ctrl', 'alt', 'cmd' }, 'w' },
+});
+```
+
+## Alternative installations
+
+### SpoonInstall
+
+If you use [SpoonInstall](https://www.hammerspoon.org/Spoons/SpoonInstall.html):
+
+- Load the spoon as following using the repository `https://github.com/peterklijn/hammerspoon-shiftit`.
+- Add this config to your `~/.hammerspoon/init.lua`
+ ```lua
+SpoonInstall:andUse("ShiftIt", {})
+```
