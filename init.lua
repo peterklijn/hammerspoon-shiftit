@@ -1,8 +1,8 @@
---- === Hammerspoon ShiftIt ===
+--- === HammerspoonShiftIt ===
 ---
 --- Manages windows and positions in MacOS with key binding from ShiftIt.
 ---
---- Download: [https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip)
+--- Download: [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
 
 local obj = {}
 obj.__index = obj
@@ -109,20 +109,20 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
-function obj:left() move(units.left50) end
-function obj:right() move(units.right50) end
-function obj:up() move(units.top50) end
-function obj:down() move(units.bot50) end
-function obj:upleft() move(units.upleft50) end
-function obj:upright() move(units.upright50) end
-function obj:botleft() move(units.botleft50) end
-function obj:botright() move(units.botright50) end
+function obj:left() move(units.left50, nil, true, 0) end
+function obj:right() move(units.right50, nil, true, 0) end
+function obj:up() move(units.top50, nil, true, 0) end
+function obj:down() move(units.bot50, nil, true, 0) end
+function obj:upleft() move(units.upleft50, nil, true, 0) end
+function obj:upright() move(units.upright50, nil, true, 0) end
+function obj:botleft() move(units.botleft50, nil, true, 0) end
+function obj:botright() move(units.botright50, nil, true, 0) end
 
-function obj:maximum() move(units.maximum) end
+function obj:maximum() move(units.maximum, nil, true, 0) end
 
 function obj:toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
 function obj:toggleZoom() hs.window.focusedWindow():toggleZoom() end
-function obj:center() hs.window.focusedWindow():centerOnScreen() end
+function obj:center() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
 function obj:nextScreen() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(),false, true, 0) end
 
 function obj:resizeOut() resizeWindowInSteps(true) end
