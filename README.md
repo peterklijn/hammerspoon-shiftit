@@ -2,6 +2,8 @@
 
 A [ShiftIt](https://github.com/fikovnik/ShiftIt) like [Hammerspoon](http://www.hammerspoon.org) window management configuration.
 
+![Hammerspoon ShiftIt demo video](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/shiftit-demo.gif?raw=true)
+
 ## Installation
 
 **Step 1**
