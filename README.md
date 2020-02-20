@@ -42,31 +42,37 @@ The ShiftIt spoon is now ready to use, enjoy.
 
 ## Usage (default keys)
 
-- `ctrl + alt + cmd + left` Snap current window to the left half to the screen
-- `ctrl + alt + cmd + right` Snap current window to the right half to the screen
-- `ctrl + alt + cmd + up` Snap current window to the top half to the screen
-- `ctrl + alt + cmd + down` Snap current window to the bottom half to the screen
+### Snap to sides
+
+- `ctrl(^) + alt(⌥) + cmd(⌘) + left` Snap current window to the left half to the screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + right` Snap current window to the right half to the screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + up` Snap current window to the top half to the screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + down` Snap current window to the bottom half to the screen
 
 ![Hammerspoon ShiftIt snap sides demo](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/shiftit-demo-snap-sides.gif?raw=true)
 
-- `ctrl + alt + cmd + 1` Snap current window to the left top quarter to the screen
-- `ctrl + alt + cmd + 2` Snap current window to the right top quarter to the screen
-- `ctrl + alt + cmd + 3` Snap current window to the left bottom quarter to the screen
-- `ctrl + alt + cmd + 4` Snap current window to the right bottom quarter to the screen
+### Snap to corners
+
+- `ctrl(^) + alt(⌥) + cmd(⌘) + 1` Snap current window to the left top quarter to the screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + 2` Snap current window to the right top quarter to the screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + 3` Snap current window to the left bottom quarter to the screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + 4` Snap current window to the right bottom quarter to the screen
 
 ![Hammerspoon ShiftIt snap corners demo](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/shiftit-demo-snap-corners.gif?raw=true)
 
-- `ctrl + alt + cmd + M` Maximise current window
-- `ctrl + alt + cmd + C` Centralize current window
-- `ctrl + alt + cmd + -` Make current window smaller
-- `ctrl + alt + cmd + =` Make current window bigger
+### 
+
+- `ctrl(^) + alt(⌥) + cmd(⌘) + M` Maximise current window
+- `ctrl(^) + alt(⌥) + cmd(⌘) + C` Centralize current window
+- `ctrl(^) + alt(⌥) + cmd(⌘) + -` Make current window smaller
+- `ctrl(^) + alt(⌥) + cmd(⌘) + =` Make current window bigger
 
 ![Hammerspoon ShiftIt increase decrease demo](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/shiftit-demo-increase-decrease.gif?raw=true)
 
-- `ctrl + alt + cmd + F` Toggle full screen for current window
-- `ctrl + alt + cmd + Z` Toggle zoom for current window
+- `ctrl(^) + alt(⌥) + cmd(⌘) + F` Toggle full screen for current window
+- `ctrl(^) + alt(⌥) + cmd(⌘) + Z` Toggle zoom for current window
 
-- `ctrl + alt + cmd + N` Move current window to next screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + N` Move current window to next screen
 
 
 
