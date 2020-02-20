@@ -73,6 +73,7 @@ The ShiftIt spoon is now ready to use, enjoy.
 - `ctrl(^) + alt(⌥) + cmd(⌘) + Z` Toggle zoom for current window
 
 - `ctrl(^) + alt(⌥) + cmd(⌘) + N` Move current window to next screen
+- `ctrl(^) + alt(⌥) + cmd(⌘) + P` Move current window to previous screen
 
 
 
@@ -95,6 +96,7 @@ The default key mapping looks like this:
   toggleZoom = {{ 'ctrl', 'alt', 'cmd' }, 'z' },
   center = {{ 'ctrl', 'alt', 'cmd' }, 'c' },
   nextScreen = {{ 'ctrl', 'alt', 'cmd' }, 'n' },
+  previousScreen = {{ 'ctrl', 'alt', 'cmd' }, 'p' },
   resizeOut = {{ 'ctrl', 'alt', 'cmd' }, '=' },
   resizeIn = {{ 'ctrl', 'alt', 'cmd' }, '-' }
 }

@@ -29,6 +29,7 @@ obj.mapping = {
   toggleZoom = { obj.mash, 'z' },
   center = { obj.mash, 'c' },
   nextScreen = { obj.mash, 'n' },
+  previousScreen = { obj.mash, 'p' },
   resizeOut = { obj.mash, '=' },
   resizeIn = { obj.mash, '-' }
 }
@@ -124,6 +125,7 @@ function obj:toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
 function obj:toggleZoom() hs.window.focusedWindow():toggleZoom() end
 function obj:center() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
 function obj:nextScreen() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(),false, true, 0) end
+function obj:previousScreen() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(),false, true, 0) end
 
 function obj:resizeOut() resizeWindowInSteps(true) end
 function obj:resizeIn() resizeWindowInSteps(false) end
@@ -147,6 +149,7 @@ function obj:resizeIn() resizeWindowInSteps(false) end
 ---   * toggleZoom
 ---   * center
 ---   * nextScreen
+---   * previousScreen
 ---   * resizeOut
 ---   * resizeIn
 function obj:bindHotkeys(mapping)
@@ -168,6 +171,7 @@ function obj:bindHotkeys(mapping)
   hs.hotkey.bind(self.mapping.toggleZoom[1], self.mapping.toggleZoom[2], function() self:toggleZoom() end)
   hs.hotkey.bind(self.mapping.center[1], self.mapping.center[2], function() self:center() end)
   hs.hotkey.bind(self.mapping.nextScreen[1], self.mapping.nextScreen[2], function() self:nextScreen() end)
+  hs.hotkey.bind(self.mapping.previousScreen[1], self.mapping.previousScreen[2], function() self:previousScreen() end)
   hs.hotkey.bind(self.mapping.resizeOut[1], self.mapping.resizeOut[2], function() self:resizeOut() end)
   hs.hotkey.bind(self.mapping.resizeIn[1], self.mapping.resizeIn[2], function() self:resizeIn() end)
 
