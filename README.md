@@ -124,7 +124,6 @@ If you use [SpoonInstall](https://www.hammerspoon.org/Spoons/SpoonInstall.html):
  ```lua
 hs.loadSpoon("SpoonInstall")
 
-
 spoon.SpoonInstall.repos.ShiftIt = {
     url = "https://github.com/peterklijn/hammerspoon-shiftit",
     desc = "ShiftIt spoon repository",
