@@ -24,6 +24,10 @@ obj.mapping = {
   upright = { obj.mash, '2' },
   botleft = { obj.mash, '3' },
   botright = { obj.mash, '4' },
+  upleftpad = { obj.mash, 'pad1' },
+  uprightpad = { obj.mash, 'pad2' },
+  botleftpad = { obj.mash, 'pad3' },
+  botrightpad = { obj.mash, 'pad4' },
   maximum = { obj.mash, 'm' },
   toggleFullScreen = { obj.mash, 'f' },
   toggleZoom = { obj.mash, 'z' },
@@ -39,12 +43,12 @@ local units = {
   left50        = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
   top50         = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
   bot50         = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
-  
+
   upleft50      = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
   upright50     = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
   botleft50     = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
   botright50    = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
-  
+
   maximum       = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
 
@@ -72,7 +76,7 @@ function resizeWindowInSteps(increment)
     noChange = true
     notMinWidth = w > wStep * 3
     notMinHeight = h > hStep * 3
-    
+
     snapLeft = x <= screen.x
     snapTop = y <= screen.y
     -- add one pixel in case of odd number of pixels
@@ -162,10 +166,16 @@ function obj:bindHotkeys(mapping)
   hs.hotkey.bind(self.mapping.right[1], self.mapping.right[2], function() self:right() end)
   hs.hotkey.bind(self.mapping.up[1], self.mapping.up[2], function() self:up() end)
   hs.hotkey.bind(self.mapping.down[1], self.mapping.down[2], function() self:down() end)
+
   hs.hotkey.bind(self.mapping.upleft[1], self.mapping.upleft[2], function() self:upleft() end)
   hs.hotkey.bind(self.mapping.upright[1], self.mapping.upright[2], function() self:upright() end)
   hs.hotkey.bind(self.mapping.botleft[1], self.mapping.botleft[2], function() self:botleft() end)
   hs.hotkey.bind(self.mapping.botright[1], self.mapping.botright[2], function() self:botright() end)
+  hs.hotkey.bind(self.mapping.upleftpad[1], self.mapping.upleftpad[2], function() self:upleft() end)
+  hs.hotkey.bind(self.mapping.uprightpad[1], self.mapping.uprightpad[2], function() self:upright() end)
+  hs.hotkey.bind(self.mapping.botleftpad[1], self.mapping.botleftpad[2], function() self:botleft() end)
+  hs.hotkey.bind(self.mapping.botrightpad[1], self.mapping.botrightpad[2], function() self:botright() end)
+
   hs.hotkey.bind(self.mapping.maximum[1], self.mapping.maximum[2], function() self:maximum() end)
   hs.hotkey.bind(self.mapping.toggleFullScreen[1], self.mapping.toggleFullScreen[2], function() self:toggleFullScreen() end)
   hs.hotkey.bind(self.mapping.toggleZoom[1], self.mapping.toggleZoom[2], function() self:toggleZoom() end)
