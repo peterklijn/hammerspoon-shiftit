@@ -76,6 +76,14 @@ The ShiftIt spoon is now ready to use, enjoy.
 - `ctrl(^) + alt(⌥) + cmd(⌘) + P` Move current window to previous screen
 
 
+## Known issues
+
+If after installation you run into errors like `attempt to index a nil value`, please make sure to verify that Hammerspoon has the right permissions on your Mac.
+
+Go to `System Preferences > Security & Privacy > Accessibility` and make sure Hammerspoon.app is checked.
+
+![Hammerspoon System Preferences Accessibility setting enabled](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/system-preferences-big-sur.png?raw=true)
+
 
 ## Configuration
 
