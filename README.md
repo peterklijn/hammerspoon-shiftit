@@ -12,7 +12,7 @@ Install Hammerspoon if you haven't yet. Download the [latest release here](https
 
 Alternatively you can install it using brew:
 ```bash
-brew cask install hammerspoon 
+brew install --cask hammerspoon 
 ```
 
 **Step 2**
