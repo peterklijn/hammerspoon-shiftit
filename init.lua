@@ -39,7 +39,10 @@ local units = {
   left50        = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
   top50         = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
   bot50         = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
-  
+  right75       = { x = 0.34, y = 0.00, w = 0.66, h = 1.00 },
+  right25       = { x = 0.66, y = 0.00, w = 0.34, h = 1.00 },
+  left75       = { x = 0.0, y = 0.00, w = 0.66, h = 1.00 },
+  left25       = { x = 0.0, y = 0.00, w = 0.34, h = 1.00 },
   upleft50      = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
   upright50     = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
   botleft50     = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
@@ -110,8 +113,65 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
-function obj:left() move(units.left50, nil, true, 0) end
-function obj:right() move(units.right50, nil, true, 0) end
+-- function obj:left() move(units.left50, nil, true, 0) end
+-- function obj:right() move(units.right50, nil, true, 0) end
+
+function obj:left() 
+  -- print('hi')
+  screen = hs.window.focusedWindow():screen():frame()
+  window = hs.window.focusedWindow():frame()
+  x = (window.x - screen.x) / screen.w 
+  y = (window.y - screen.y) / screen.h 
+  w = window.w / screen.w
+  h = window.h / screen.h
+  -- local log = hs.logger.new('mymodule','debug')
+  -- log.i(x, y, w, h) -- will print "[mymodule] Initializing" to the console
+  if (x == 0 and y <= 0.1 and h == 1.0)
+  then
+    if (w == 0.5) 
+    then
+      move(units.left75, nil, true, 0)
+    elseif (math.abs(w - 0.66) < 0.01) 
+    then 
+      move(units.left25, nil, true, 0)
+    else 
+      move(units.left50, nil, true, 0)
+    end
+  else 
+    move(units.left50, nil, true, 0)
+  end
+
+end
+
+
+
+function obj:right() 
+  -- print('hi')
+  screen = hs.window.focusedWindow():screen():frame()
+  window = hs.window.focusedWindow():frame()
+  x = (window.x - screen.x) / screen.w 
+  y = (window.y - screen.y) / screen.h 
+  w = window.w / screen.w
+  h = window.h / screen.h
+  -- local log = hs.logger.new('mymodule','debug')
+  -- log.i(window.x - screen.x, y, w, h) -- will print "[mymodule] Initializing" to the console
+  if (x - (1 - w) < 0.01 and y <= 0.1 and h == 1.0)
+  then
+    if (w == 0.5) 
+    then
+      move(units.right75, nil, true, 0)
+    elseif (math.abs(w - 0.66) < 0.01) 
+    then 
+      move(units.right25, nil, true, 0)
+    else 
+      move(units.right50, nil, true, 0)
+    end
+  else 
+    move(units.right50, nil, true, 0)
+  end
+
+end
+
 function obj:up() move(units.top50, nil, true, 0) end
 function obj:down() move(units.bot50, nil, true, 0) end
 function obj:upleft() move(units.upleft50, nil, true, 0) end
