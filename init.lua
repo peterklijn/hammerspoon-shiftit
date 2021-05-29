@@ -15,6 +15,7 @@ obj.homepage = "https://github.com/peterklijn/hammerspoon-shiftit"
 obj.license = ""
 
 obj.mash = { 'ctrl', 'alt', 'cmd' }
+obj.shiftMash = {'ctrl', 'cmd', 'shift'}
 obj.mapping = {
   left = { obj.mash, 'left' },
   right = { obj.mash, 'right' },
@@ -31,7 +32,9 @@ obj.mapping = {
   nextScreen = { obj.mash, 'n' },
   previousScreen = { obj.mash, 'p' },
   resizeOut = { obj.mash, '=' },
-  resizeIn = { obj.mash, '-' }
+  resizeIn = { obj.mash, '-' }, 
+  sLeft = {obj.shiftMash, 'left'},
+  sRight = {obj.shiftMash, 'right'}
 }
 
 local units = {
@@ -39,10 +42,14 @@ local units = {
   left50        = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
   top50         = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
   bot50         = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
+  
   right75       = { x = 0.34, y = 0.00, w = 0.66, h = 1.00 },
   right25       = { x = 0.66, y = 0.00, w = 0.34, h = 1.00 },
+  
   left75       = { x = 0.0, y = 0.00, w = 0.66, h = 1.00 },
   left25       = { x = 0.0, y = 0.00, w = 0.34, h = 1.00 },
+  
+
   upleft50      = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
   upright50     = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
   botleft50     = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
@@ -172,6 +179,19 @@ function obj:right()
 
 end
 
+function obj:sLeft()
+  local log = hs.logger.new('sLeft','debug')
+  hs.window.focusedWindow():moveOneScreenWest()
+  log.i(window.x - screen.x) -- will print "[mymodule] Initializing" to the console
+end 
+
+function obj:sRight()
+  hs.window.focusedWindow():moveOneScreenEast()
+  local log = hs.logger.new('sRight','debug')
+  log.i(window.x - screen.x) -- will print "[mymodule] Initializing" to the console
+end 
+
+
 function obj:up() move(units.top50, nil, true, 0) end
 function obj:down() move(units.bot50, nil, true, 0) end
 function obj:upleft() move(units.upleft50, nil, true, 0) end
@@ -234,6 +254,8 @@ function obj:bindHotkeys(mapping)
   hs.hotkey.bind(self.mapping.previousScreen[1], self.mapping.previousScreen[2], function() self:previousScreen() end)
   hs.hotkey.bind(self.mapping.resizeOut[1], self.mapping.resizeOut[2], function() self:resizeOut() end)
   hs.hotkey.bind(self.mapping.resizeIn[1], self.mapping.resizeIn[2], function() self:resizeIn() end)
+  hs.hotkey.bind(self.mapping.sLeft[1], self.mapping.sLeft[2], function() self:sLeft() end)
+  hs.hotkey.bind(self.mapping.sRight[1], self.mapping.sRight[2], function() self:sRight() end)
 
   return self
 end
