@@ -40,15 +40,40 @@ local units = {
   top50         = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
   bot50         = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
   
+  right33       = { x = 0.67, y = 0.00, w = 0.33, h = 1.00 },
+  left33        = { x = 0.00, y = 0.00, w = 0.33, h = 1.00 },
+
   upleft50      = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
   upright50     = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
   botleft50     = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
   botright50    = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
-  
+
+  upleft33      = { x = 0.00, y = 0.00, w = 0.33, h = 0.50 },
+  upright33     = { x = 0.67, y = 0.00, w = 0.33, h = 0.50 },
+  botleft33     = { x = 0.00, y = 0.50, w = 0.33, h = 0.50 },
+  botright33    = { x = 0.67, y = 0.50, w = 0.33, h = 0.50 },
+
   maximum       = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
 
+local relatedUnits = {}
+
 function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0) end
+
+function moveToggle(unit)
+  -- Fetch alternative unit, if any
+  newUnit = relatedUnits[unit]
+
+  before = hs.window.focusedWindow():frame()
+  move(unit)
+  after = hs.window.focusedWindow():frame()
+
+  -- if the window is not moved or resized, it was already at the required location
+  -- if an alernative location is configured, move the window to that location
+  if before == after and newUnit then
+    move(newUnit)
+  end
+end
 
 function resizeWindowInSteps(increment)
   screen = hs.window.focusedWindow():screen():frame()
@@ -110,14 +135,14 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
-function obj:left() move(units.left50, nil, true, 0) end
-function obj:right() move(units.right50, nil, true, 0) end
-function obj:up() move(units.top50, nil, true, 0) end
-function obj:down() move(units.bot50, nil, true, 0) end
-function obj:upleft() move(units.upleft50, nil, true, 0) end
-function obj:upright() move(units.upright50, nil, true, 0) end
-function obj:botleft() move(units.botleft50, nil, true, 0) end
-function obj:botright() move(units.botright50, nil, true, 0) end
+function obj:left() moveToggle(units.left50, nil, true, 0) end
+function obj:right() moveToggle(units.right50, nil, true, 0) end
+function obj:up() moveToggle(units.top50, nil, true, 0) end
+function obj:down() moveToggle(units.bot50, nil, true, 0) end
+function obj:upleft() moveToggle(units.upleft50, nil, true, 0) end
+function obj:upright() moveToggle(units.upright50, nil, true, 0) end
+function obj:botleft() moveToggle(units.botleft50, nil, true, 0) end
+function obj:botright() moveToggle(units.botright50, nil, true, 0) end
 
 function obj:maximum() move(units.maximum, nil, true, 0) end
 
@@ -176,6 +201,18 @@ function obj:bindHotkeys(mapping)
   hs.hotkey.bind(self.mapping.resizeIn[1], self.mapping.resizeIn[2], function() self:resizeIn() end)
 
   return self
+end
+
+function obj:enableThreeColumnGrid()
+  print(units)
+  relatedUnits = {
+    [units.left50] = units.left33,
+    [units.right50] = units.right33,
+    [units.upleft50] = units.upleft33,
+    [units.upright50] = units.upright33,
+    [units.botleft50] = units.botleft33,
+    [units.botright50] = units.botright33,
+  }
 end
 
 return obj
