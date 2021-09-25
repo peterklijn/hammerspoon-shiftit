@@ -6,7 +6,7 @@ A [ShiftIt](https://github.com/fikovnik/ShiftIt) like [Hammerspoon](http://www.h
 
 ## Installation
 
-**Step 1**
+#### Step 1
 
 Install Hammerspoon if you haven't yet. Download the [latest release here](https://github.com/Hammerspoon/hammerspoon/releases/latest) and drag it to `/Applications`.
 
@@ -15,7 +15,7 @@ Alternatively you can install it using brew:
 brew install --cask hammerspoon 
 ```
 
-**Step 2**
+#### Step 2
 
 Make sure Hammerspoon is started (You should see the a Hammerspoon logo in your menubar).
 
@@ -25,7 +25,7 @@ Hammerspoon should prompt that the newly installed spoon is now available.
 
 *Alternatively you can use [SpoonInstall](#spooninstall)*
 
-**Step 3**
+#### Step 3
 
 Click on the Hammerspoon menubar icon and click on 'Open Config'. An `init.lua` file should now open in your editor of choice.
 
@@ -38,7 +38,16 @@ spoon.ShiftIt:bindHotkeys({})
 
 Click on the Hammerspoon menubar icon again, and click on 'Reload Config'.
 
+#### Step 4
+
+Make sure Hammerspoon has the 'Accessibility' permissions. Without those permissions, it can't move and modify windows.
+
+Go to `System Preferences > Security & Privacy > Accessibility` and make sure Hammerspoon.app is checked.
+
+
 The ShiftIt spoon is now ready to use, enjoy.
+
+Having issues? Check out the [Known issues](https://github.com/peterklijn/hammerspoon-shiftit#known-issues) section, have a look in the [issues section](https://github.com/peterklijn/hammerspoon-shiftit/issues), or create a new issue.
 
 ## Usage (default keys)
 
@@ -60,7 +69,6 @@ The ShiftIt spoon is now ready to use, enjoy.
 
 ![Hammerspoon ShiftIt snap corners demo](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/shiftit-demo-snap-corners.gif?raw=true)
 
-### 
 
 - `ctrl(^) + alt(⌥) + cmd(⌘) + M` Maximise current window
 - `ctrl(^) + alt(⌥) + cmd(⌘) + C` Centralize current window
@@ -78,11 +86,23 @@ The ShiftIt spoon is now ready to use, enjoy.
 
 ## Known issues
 
+#### "attempt to index nil value" error while using shortcuts
+
 If after installation you run into errors like `attempt to index a nil value`, please make sure to verify that Hammerspoon has the right permissions on your Mac.
 
 Go to `System Preferences > Security & Privacy > Accessibility` and make sure Hammerspoon.app is checked.
 
 ![Hammerspoon System Preferences Accessibility setting enabled](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/system-preferences-big-sur.png?raw=true)
+
+#### "attempt to index nil value" error during startup
+
+If Hammerspoon prints errors during initialisation, like "attempt to index nil value" from Hammerspoon's init script (`~/.hammerspoon/init.lua`), the ShiftIt spoon may have been misconfigured.
+
+Make sure that the Spoon name, provided in [installation step 3](https://github.com/peterklijn/hammerspoon-shiftit#step-3) matches with the folder name in `~/.hammerspoon/Spoons` (without the `.spoon` extension).
+
+For example, if the name in the init script is `"ShiftIt"`, the Spoon in the `~/.hammerspoon/Spoons` folder should be `ShiftIt.spoon`.
+
+If those are different, change the name in the Hammerspoon `init.lua` configuration to be aligned with the name in the Spoons folder.
 
 
 ## Configuration
