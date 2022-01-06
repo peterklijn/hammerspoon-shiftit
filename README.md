@@ -44,6 +44,7 @@ Make sure Hammerspoon has the 'Accessibility' permissions. Without those permiss
 
 Go to `System Preferences > Security & Privacy > Accessibility` and make sure Hammerspoon.app is checked.
 
+_If you just enabled permissions for Hammerspoon, you might need to restart the application for the permissions to take effect._
 
 The ShiftIt spoon is now ready to use, enjoy.
 
