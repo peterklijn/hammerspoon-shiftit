@@ -37,43 +37,53 @@ obj.mapping = {
 }
 
 local units = {
-  right50 = { x = 0.50, y = 0.00, w = 0.50, h = 1.00 },
-  left50  = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
-  top50   = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
-  bot50   = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
+  left  = function(x, y) return { x = 0.00, y = 0.00, w = x / 100, h = 1.00 } end,
+  right = function(x, y) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = 1.00 } end,
+  top   = function(x, y) return { x = 0.00, y = 0.00, w = 1.00, h = y / 100 } end,
+  bot   = function(x, y) return { x = 0.00, y = 1 - (y / 100), w = 1.00, h = y / 100 } end,
 
-  right33 = { x = 0.67, y = 0.00, w = 0.33, h = 1.00 },
-  left33  = { x = 0.00, y = 0.00, w = 0.33, h = 1.00 },
-
-  upleft50   = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
-  upright50  = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
-  botleft50  = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
-  botright50 = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
-
-  upleft33   = { x = 0.00, y = 0.00, w = 0.33, h = 0.50 },
-  upright33  = { x = 0.67, y = 0.00, w = 0.33, h = 0.50 },
-  botleft33  = { x = 0.00, y = 0.50, w = 0.33, h = 0.50 },
-  botright33 = { x = 0.67, y = 0.50, w = 0.33, h = 0.50 },
+  upleft   = function(x, y) return { x = 0.00, y = 0.00, w = x / 100, h = y / 100 } end,
+  upright  = function(x, y) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = y / 100 } end,
+  botleft  = function(x, y) return { x = 0.00, y = 1 - (y / 100), w = x / 100, h = y / 100 } end,
+  botright = function(x, y) return { x = 1 - (x / 100), y = 1 - (y / 100), w = x / 100, h = y / 100 } end,
 
   maximum = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
 
 local relatedUnits = {}
 
+local latestMove = {
+  windowId = -1,
+  direction = 'unknown',
+  stepX = -1,
+  stepY = -1,
+}
+
 function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
 
 function obj:moveToggle(unit)
-  -- Fetch alternative unit, if any
-  local newUnit = relatedUnits[unit]
+  local windowId = self.hs.window.focusedWindow():id()
+  local sameMoveAction = latestMove.windowId == windowId and latestMove.direction == unit
+  if sameMoveAction then
+    latestMove.stepX = obj.nextStepsX[latestMove.stepX]
+    latestMove.stepY = obj.nextStepsY[latestMove.stepY]
+  else
+    latestMove.stepX = obj.moveStepsX[1]
+    latestMove.stepY = obj.moveStepsY[1]
+  end
+  latestMove.windowId = windowId
+  latestMove.direction = unit
 
   local before = self.hs.window.focusedWindow():frame()
-  self:move(unit)
-  local after = self.hs.window.focusedWindow():frame()
+  self:move(unit(latestMove.stepX, latestMove.stepY))
 
-  -- if the window is not moved or resized, it was already at the required location
-  -- if an alernative location is configured, move the window to that location
-  if before == after and newUnit then
-    self:move(newUnit)
+  if not sameMoveAction then
+    -- if the window is not moved or resized, it was already at the required location
+    -- if an alernative location is configured, move the window to that location
+    local after = self.hs.window.focusedWindow():frame()
+    if before == after then
+      self:moveToggle(unit)
+    end
   end
 end
 
@@ -135,21 +145,21 @@ function obj:resizeWindowInSteps(increment)
   self:move({ x = x, y = y, w = w, h = h })
 end
 
-function obj:left() self:moveToggle(units.left50) end
+function obj:left() self:moveToggle(units.left) end
 
-function obj:right() self:moveToggle(units.right50) end
+function obj:right() self:moveToggle(units.right) end
 
-function obj:up() self:moveToggle(units.top50) end
+function obj:up() self:moveToggle(units.top) end
 
-function obj:down() self:moveToggle(units.bot50) end
+function obj:down() self:moveToggle(units.bot) end
 
-function obj:upleft() self:moveToggle(units.upleft50) end
+function obj:upleft() self:moveToggle(units.upleft) end
 
-function obj:upright() self:moveToggle(units.upright50) end
+function obj:upright() self:moveToggle(units.upright) end
 
-function obj:botleft() self:moveToggle(units.botleft50) end
+function obj:botleft() self:moveToggle(units.botleft) end
 
-function obj:botright() self:moveToggle(units.botright50) end
+function obj:botright() self:moveToggle(units.botright) end
 
 function obj:maximum() self:move(units.maximum) end
 
@@ -221,16 +231,43 @@ function obj:bindHotkeys(mapping)
   return self
 end
 
-function obj:enableThreeColumnGrid()
-  print(units)
-  relatedUnits = {
-    [units.left50] = units.left33,
-    [units.right50] = units.right33,
-    [units.upleft50] = units.upleft33,
-    [units.upright50] = units.upright33,
-    [units.botleft50] = units.botleft33,
-    [units.botright50] = units.botright33,
-  }
+local function join(items, separator)
+  local res = ''
+  for _, item in pairs(items) do
+    if res ~= '' then
+      res = res .. separator
+    end
+    res = res .. item
+  end
+  return res
 end
+
+function obj:setSteps(stepsX, stepsY, skip_print)
+  if #stepsX < 1 or #stepsY < 1 then
+    print('Invalid arguments in setSteps, both dimensions should have at least 1 step')
+    return
+  end
+  local function listToNextMap(list)
+    local res = {}
+    for i, item in ipairs(list) do
+      local prev = (list[i - 1] == nil and list[#list] or list[i - 1])
+      res[prev] = item
+    end
+    return res
+  end
+
+  self.moveStepsX = stepsX
+  self.moveStepsY = stepsY
+  self.nextStepsX = listToNextMap(stepsX)
+  self.nextStepsY = listToNextMap(stepsY)
+
+  if not skip_print then
+    print('Steps for horizontal:', join(stepsX, ' -> '))
+    print('Steps for vertical:', join(stepsY, ' -> '))
+  end
+end
+
+-- Set default steps to 50%, as it's the ShiftIt default
+obj:setSteps({ 50 }, { 50 }, true)
 
 return obj
