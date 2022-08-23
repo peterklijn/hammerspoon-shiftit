@@ -1,0 +1,8 @@
+version: '3.2'
+services:
+  hammerspoon-shiftit-ci:
+    build:
+      context: ..
+      dockerfile: ./.docker/ci.Dockerfile
+    volumes:
+      - ..:/hammerspoon-shifit
