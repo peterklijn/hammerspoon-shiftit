@@ -37,10 +37,10 @@ obj.mapping = {
 }
 
 local units = {
-  left  = function(x, y) return { x = 0.00, y = 0.00, w = x / 100, h = 1.00 } end,
-  right = function(x, y) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = 1.00 } end,
-  top   = function(x, y) return { x = 0.00, y = 0.00, w = 1.00, h = y / 100 } end,
-  bot   = function(x, y) return { x = 0.00, y = 1 - (y / 100), w = 1.00, h = y / 100 } end,
+  left  = function(x, _) return { x = 0.00, y = 0.00, w = x / 100, h = 1.00 } end,
+  right = function(x, _) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = 1.00 } end,
+  top   = function(_, y) return { x = 0.00, y = 0.00, w = 1.00, h = y / 100 } end,
+  bot   = function(_, y) return { x = 0.00, y = 1 - (y / 100), w = 1.00, h = y / 100 } end,
 
   upleft   = function(x, y) return { x = 0.00, y = 0.00, w = x / 100, h = y / 100 } end,
   upright  = function(x, y) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = y / 100 } end,
@@ -49,8 +49,6 @@ local units = {
 
   maximum = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
-
-local relatedUnits = {}
 
 local latestMove = {
   windowId = -1,
