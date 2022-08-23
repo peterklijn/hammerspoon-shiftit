@@ -35,10 +35,10 @@ obj.mapping = {
 }
 
 local units = {
-  left  = function(x, y) return { x = 0.00, y = 0.00, w = x / 100, h = 1.00 } end,
-  right = function(x, y) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = 1.00 } end,
-  top   = function(x, y) return { x = 0.00, y = 0.00, w = 1.00, h = y / 100 } end,
-  bot   = function(x, y) return { x = 0.00, y = 1 - (y / 100), w = 1.00, h = y / 100 } end,
+  left  = function(x, _) return { x = 0.00, y = 0.00, w = x / 100, h = 1.00 } end,
+  right = function(x, _) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = 1.00 } end,
+  top   = function(_, y) return { x = 0.00, y = 0.00, w = 1.00, h = y / 100 } end,
+  bot   = function(_, y) return { x = 0.00, y = 1 - (y / 100), w = 1.00, h = y / 100 } end,
 
   upleft   = function(x, y) return { x = 0.00, y = 0.00, w = x / 100, h = y / 100 } end,
   upright  = function(x, y) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = y / 100 } end,
@@ -47,8 +47,6 @@ local units = {
 
   maximum = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
-
-local relatedUnits = {}
 
 local latestMove = {
   windowId = -1,
@@ -145,24 +143,28 @@ local function resizeWindowInSteps(increment)
   move({ x = x, y = y, w = w, h = h })
 end
 
-function obj:left() moveToggle(units.left) end
-function obj:right() moveToggle(units.right) end
-function obj:up() moveToggle(units.top) end
-function obj:down() moveToggle(units.bot) end
-function obj:upleft() moveToggle(units.upleft) end
-function obj:upright() moveToggle(units.upright) end
-function obj:botleft() moveToggle(units.botleft) end
-function obj:botright() moveToggle(units.botright) end
+function obj.left() moveToggle(units.left) end
+function obj.right() moveToggle(units.right) end
+function obj.up() moveToggle(units.top) end
+function obj.down() moveToggle(units.bot) end
+function obj.upleft() moveToggle(units.upleft) end
+function obj.upright() moveToggle(units.upright) end
+function obj.botleft() moveToggle(units.botleft) end
+function obj.botright() moveToggle(units.botright) end
 
-function obj:maximum() move(units.maximum) end
-function obj:toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
-function obj:toggleZoom() hs.window.focusedWindow():toggleZoom() end
-function obj:center() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
-function obj:nextScreen() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true, 0) end
-function obj:previousScreen() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true, 0) end
+function obj.maximum() move(units.maximum) end
+function obj.toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
+function obj.toggleZoom() hs.window.focusedWindow():toggleZoom() end
+function obj.center() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
+function obj.nextScreen()
+  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true, 0)
+end
+function obj.previousScreen()
+  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true, 0)
+end
 
-function obj:resizeOut() resizeWindowInSteps(true) end
-function obj:resizeIn() resizeWindowInSteps(false) end
+function obj.resizeOut() resizeWindowInSteps(true) end
+function obj.resizeIn() resizeWindowInSteps(false) end
 
 --- HammerspoonShiftIt:bindHotkeys(mapping)
 --- Method
@@ -201,7 +203,9 @@ function obj:bindHotkeys(mapping)
   hs.hotkey.bind(self.mapping.botleft[1], self.mapping.botleft[2], function() self:botleft() end)
   hs.hotkey.bind(self.mapping.botright[1], self.mapping.botright[2], function() self:botright() end)
   hs.hotkey.bind(self.mapping.maximum[1], self.mapping.maximum[2], function() self:maximum() end)
-  hs.hotkey.bind(self.mapping.toggleFullScreen[1], self.mapping.toggleFullScreen[2], function() self:toggleFullScreen() end)
+  hs.hotkey.bind(self.mapping.toggleFullScreen[1], self.mapping.toggleFullScreen[2], function()
+    self:toggleFullScreen()
+  end)
   hs.hotkey.bind(self.mapping.toggleZoom[1], self.mapping.toggleZoom[2], function() self:toggleZoom() end)
   hs.hotkey.bind(self.mapping.center[1], self.mapping.center[2], function() self:center() end)
   hs.hotkey.bind(self.mapping.nextScreen[1], self.mapping.nextScreen[2], function() self:nextScreen() end)
