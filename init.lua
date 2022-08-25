@@ -2,7 +2,7 @@
 ---
 --- Manages windows and positions in MacOS with key binding from ShiftIt.
 ---
---- Download: [https://github.com/peterkljin/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/HammerspoonShiftIt.spoon.zip)
+--- Download: https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip
 
 local obj = {}
 obj.__index = obj
@@ -31,56 +31,54 @@ obj.mapping = {
   nextScreen = { obj.mash, 'n' },
   previousScreen = { obj.mash, 'p' },
   resizeOut = { obj.mash, '=' },
-  resizeIn = { obj.mash, '-' }
+  resizeIn = { obj.mash, '-' },
 }
 
 local units = {
-  right50       = { x = 0.50, y = 0.00, w = 0.50, h = 1.00 },
-  left50        = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
-  top50         = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
-  bot50         = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
-  
-  upleft50      = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
-  upright50     = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
-  botleft50     = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
-  botright50    = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
-  
-  maximum       = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
+  right50 = { x = 0.50, y = 0.00, w = 0.50, h = 1.00 },
+  left50  = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
+  top50   = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
+  bot50   = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
+
+  upleft50   = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
+  upright50  = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
+  botleft50  = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
+  botright50 = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
+
+  maximum = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
 
-function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0) end
+local function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0) end
 
-function resizeWindowInSteps(increment)
-  screen = hs.window.focusedWindow():screen():frame()
-  window = hs.window.focusedWindow():frame()
-  wStep = math.floor(screen.w / 12)
-  hStep = math.floor(screen.h / 12)
-  x = window.x
-  y = window.y
-  w = window.w
-  h = window.h
+local function resizeWindowInSteps(increment)
+  local screen = hs.window.focusedWindow():screen():frame()
+  local window = hs.window.focusedWindow():frame()
+  local wStep = math.floor(screen.w / 12)
+  local hStep = math.floor(screen.h / 12)
+  local x, y, w, h = window.x, window.y, window.w, window.h
+
   if increment then
-    xu = math.max(screen.x, x - wStep)
-    w = w + (x-xu)
-    x=xu
-    yu = math.max(screen.y, y - hStep)
+    local xu = math.max(screen.x, x - wStep)
+    w = w + (x - xu)
+    x = xu
+    local yu = math.max(screen.y, y - hStep)
     h = h + (y - yu)
     y = yu
     w = math.min(screen.w - x + screen.x, w + wStep)
     h = math.min(screen.h - y + screen.y, h + hStep)
   else
-    noChange = true
-    notMinWidth = w > wStep * 3
-    notMinHeight = h > hStep * 3
-    
-    snapLeft = x <= screen.x
-    snapTop = y <= screen.y
-    -- add one pixel in case of odd number of pixels
-    snapRight = (x + w + 1) >= (screen.x + screen.w)
-    snapBottom = (y + h + 1) >= (screen.y + screen.h)
+local     noChange = true
+    local notMinWidth = w > wStep * 3
+    local notMinHeight = h > hStep * 3
 
-    b2n = { [true]=1, [false]=0 }
-    totalSnaps = b2n[snapLeft] + b2n[snapRight] + b2n[snapTop] + b2n[snapBottom]
+    local snapLeft = x <= screen.x
+    local snapTop = y <= screen.y
+    -- add one pixel in case of odd number of pixels
+    local snapRight = (x + w + 1) >= (screen.x + screen.w)
+    local snapBottom = (y + h + 1) >= (screen.y + screen.h)
+
+    local b2n = { [true] = 1, [false] = 0 }
+    local totalSnaps = b2n[snapLeft] + b2n[snapRight] + b2n[snapTop] + b2n[snapBottom]
 
     if notMinWidth and (totalSnaps <= 1 or not snapLeft) then
       x = x + wStep
@@ -107,28 +105,44 @@ function resizeWindowInSteps(increment)
       h = notMinHeight and h - hStep * 2 or h
     end
   end
-  hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
+  hs.window.focusedWindow():move({ x = x, y = y, w = w, h = h }, nil, true, 0)
 end
 
-function obj:left() move(units.left50, nil, true, 0) end
-function obj:right() move(units.right50, nil, true, 0) end
-function obj:up() move(units.top50, nil, true, 0) end
-function obj:down() move(units.bot50, nil, true, 0) end
-function obj:upleft() move(units.upleft50, nil, true, 0) end
-function obj:upright() move(units.upright50, nil, true, 0) end
-function obj:botleft() move(units.botleft50, nil, true, 0) end
-function obj:botright() move(units.botright50, nil, true, 0) end
+function obj.left() move(units.left50, nil, true, 0) end
 
-function obj:maximum() move(units.maximum, nil, true, 0) end
+function obj.right() move(units.right50, nil, true, 0) end
 
-function obj:toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
-function obj:toggleZoom() hs.window.focusedWindow():toggleZoom() end
-function obj:center() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
-function obj:nextScreen() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(),false, true, 0) end
-function obj:previousScreen() hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(),false, true, 0) end
+function obj.up() move(units.top50, nil, true, 0) end
 
-function obj:resizeOut() resizeWindowInSteps(true) end
-function obj:resizeIn() resizeWindowInSteps(false) end
+function obj.down() move(units.bot50, nil, true, 0) end
+
+function obj.upleft() move(units.upleft50, nil, true, 0) end
+
+function obj.upright() move(units.upright50, nil, true, 0) end
+
+function obj.botleft() move(units.botleft50, nil, true, 0) end
+
+function obj.botright() move(units.botright50, nil, true, 0) end
+
+function obj.maximum() move(units.maximum, nil, true, 0) end
+
+function obj.toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
+
+function obj.toggleZoom() hs.window.focusedWindow():toggleZoom() end
+
+function obj.center() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
+
+function obj.nextScreen()
+  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true, 0)
+end
+
+function obj.previousScreen()
+  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true, 0)
+end
+
+function obj.resizeOut() resizeWindowInSteps(true) end
+
+function obj.resizeIn() resizeWindowInSteps(false) end
 
 --- HammerspoonShiftIt:bindHotkeys(mapping)
 --- Method
@@ -155,7 +169,7 @@ function obj:resizeIn() resizeWindowInSteps(false) end
 function obj:bindHotkeys(mapping)
 
   if (mapping) then
-    for k,v in pairs(mapping) do self.mapping[k] = v end
+    for k, v in pairs(mapping) do self.mapping[k] = v end
   end
 
   hs.hotkey.bind(self.mapping.left[1], self.mapping.left[2], function() self:left() end)
@@ -167,7 +181,9 @@ function obj:bindHotkeys(mapping)
   hs.hotkey.bind(self.mapping.botleft[1], self.mapping.botleft[2], function() self:botleft() end)
   hs.hotkey.bind(self.mapping.botright[1], self.mapping.botright[2], function() self:botright() end)
   hs.hotkey.bind(self.mapping.maximum[1], self.mapping.maximum[2], function() self:maximum() end)
-  hs.hotkey.bind(self.mapping.toggleFullScreen[1], self.mapping.toggleFullScreen[2], function() self:toggleFullScreen() end)
+  hs.hotkey.bind(self.mapping.toggleFullScreen[1], self.mapping.toggleFullScreen[2], function()
+    self:toggleFullScreen()
+  end)
   hs.hotkey.bind(self.mapping.toggleZoom[1], self.mapping.toggleZoom[2], function() self:toggleZoom() end)
   hs.hotkey.bind(self.mapping.center[1], self.mapping.center[2], function() self:center() end)
   hs.hotkey.bind(self.mapping.nextScreen[1], self.mapping.nextScreen[2], function() self:nextScreen() end)
