@@ -16,3 +16,6 @@ jobs:
 
       - name: Run linter
         run: make ci-lint
+
+      - name: Run tests
+        run: make ci-test

@@ -4,7 +4,9 @@
 ---
 --- Download: https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip
 
-local obj = {}
+local obj = {
+  hs = hs
+}
 obj.__index = obj
 
 -- Metadata
@@ -136,7 +138,7 @@ function obj.nextScreen()
   hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true, 0)
 end
 
-function obj.previousScreen()
+function obj.prevScreen()
   hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true, 0)
 end
 
@@ -172,24 +174,24 @@ function obj:bindHotkeys(mapping)
     for k, v in pairs(mapping) do self.mapping[k] = v end
   end
 
-  hs.hotkey.bind(self.mapping.left[1], self.mapping.left[2], function() self:left() end)
-  hs.hotkey.bind(self.mapping.right[1], self.mapping.right[2], function() self:right() end)
-  hs.hotkey.bind(self.mapping.up[1], self.mapping.up[2], function() self:up() end)
-  hs.hotkey.bind(self.mapping.down[1], self.mapping.down[2], function() self:down() end)
-  hs.hotkey.bind(self.mapping.upleft[1], self.mapping.upleft[2], function() self:upleft() end)
-  hs.hotkey.bind(self.mapping.upright[1], self.mapping.upright[2], function() self:upright() end)
-  hs.hotkey.bind(self.mapping.botleft[1], self.mapping.botleft[2], function() self:botleft() end)
-  hs.hotkey.bind(self.mapping.botright[1], self.mapping.botright[2], function() self:botright() end)
-  hs.hotkey.bind(self.mapping.maximum[1], self.mapping.maximum[2], function() self:maximum() end)
-  hs.hotkey.bind(self.mapping.toggleFullScreen[1], self.mapping.toggleFullScreen[2], function()
+  self.hs.hotkey.bind(self.mapping.left[1], self.mapping.left[2], function() self:left() end)
+  self.hs.hotkey.bind(self.mapping.right[1], self.mapping.right[2], function() self:right() end)
+  self.hs.hotkey.bind(self.mapping.up[1], self.mapping.up[2], function() self:up() end)
+  self.hs.hotkey.bind(self.mapping.down[1], self.mapping.down[2], function() self:down() end)
+  self.hs.hotkey.bind(self.mapping.upleft[1], self.mapping.upleft[2], function() self:upleft() end)
+  self.hs.hotkey.bind(self.mapping.upright[1], self.mapping.upright[2], function() self:upright() end)
+  self.hs.hotkey.bind(self.mapping.botleft[1], self.mapping.botleft[2], function() self:botleft() end)
+  self.hs.hotkey.bind(self.mapping.botright[1], self.mapping.botright[2], function() self:botright() end)
+  self.hs.hotkey.bind(self.mapping.maximum[1], self.mapping.maximum[2], function() self:maximum() end)
+  self.hs.hotkey.bind(self.mapping.toggleFullScreen[1], self.mapping.toggleFullScreen[2], function()
     self:toggleFullScreen()
   end)
-  hs.hotkey.bind(self.mapping.toggleZoom[1], self.mapping.toggleZoom[2], function() self:toggleZoom() end)
-  hs.hotkey.bind(self.mapping.center[1], self.mapping.center[2], function() self:center() end)
-  hs.hotkey.bind(self.mapping.nextScreen[1], self.mapping.nextScreen[2], function() self:nextScreen() end)
-  hs.hotkey.bind(self.mapping.previousScreen[1], self.mapping.previousScreen[2], function() self:previousScreen() end)
-  hs.hotkey.bind(self.mapping.resizeOut[1], self.mapping.resizeOut[2], function() self:resizeOut() end)
-  hs.hotkey.bind(self.mapping.resizeIn[1], self.mapping.resizeIn[2], function() self:resizeIn() end)
+  self.hs.hotkey.bind(self.mapping.toggleZoom[1], self.mapping.toggleZoom[2], function() self:toggleZoom() end)
+  self.hs.hotkey.bind(self.mapping.center[1], self.mapping.center[2], function() self:center() end)
+  self.hs.hotkey.bind(self.mapping.nextScreen[1], self.mapping.nextScreen[2], function() self:nextScreen() end)
+  self.hs.hotkey.bind(self.mapping.previousScreen[1], self.mapping.previousScreen[2], function() self:prevScreen() end)
+  self.hs.hotkey.bind(self.mapping.resizeOut[1], self.mapping.resizeOut[2], function() self:resizeOut() end)
+  self.hs.hotkey.bind(self.mapping.resizeIn[1], self.mapping.resizeIn[2], function() self:resizeIn() end)
 
   return self
 end
