@@ -5,4 +5,4 @@ services:
       context: ..
       dockerfile: ./.docker/ci.Dockerfile
     volumes:
-      - ..:/shifit
+      - ..:/shiftit
