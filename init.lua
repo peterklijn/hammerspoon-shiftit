@@ -69,7 +69,7 @@ function obj:resizeWindowInSteps(increment)
     w = math.min(screen.w - x + screen.x, w + wStep)
     h = math.min(screen.h - y + screen.y, h + hStep)
   else
-local     noChange = true
+    local noChange = true
     local notMinWidth = w > wStep * 3
     local notMinHeight = h > hStep * 3
 
