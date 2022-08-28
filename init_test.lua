@@ -6,10 +6,11 @@ local hsmocks = require('hammerspoon_mocks')
 -- luacheck: ignore 112
 
 TestShiftIt = {} -- luacheck: ignore 111
+shiftit.hs = hsmocks
 
 function TestShiftIt.setUp()
-    shiftit.hs = hsmocks
     hsmocks:reset()
+    shiftit:setSteps({ 50 }, { 50 }, true)
 end
 
 function TestShiftIt.testBindDefault()
@@ -207,6 +208,69 @@ function TestShiftIt.testResizeWindowInStepsEdgeCases()
     for _, test in pairs(tests) do
         hsmocks.window.rect = test.before
         shiftit:resizeWindowInSteps(test.increase)
+        lu.assertEquals(hsmocks.window.rect, test.expect, test.desc)
+    end
+end
+
+function TestShiftIt.testInitialiseSteps()
+    lu.assertEquals(shiftit.moveStepsX, { 50 })
+    lu.assertEquals(shiftit.moveStepsY, { 50 })
+    lu.assertEquals(shiftit.nextStepsX, { [50] = 50 })
+    lu.assertEquals(shiftit.nextStepsY, { [50] = 50 })
+
+    shiftit:setSteps({ 80, 60, 40 }, { 75, 50, 25 }, true)
+    lu.assertEquals(shiftit.moveStepsX, { 80, 60, 40 })
+    lu.assertEquals(shiftit.moveStepsY, { 75, 50, 25 })
+    lu.assertEquals(shiftit.nextStepsX, { [40] = 80, [60] = 40, [80] = 60 })
+    lu.assertEquals(shiftit.nextStepsY, { [25] = 75, [50] = 25, [75] =50 })
+end
+
+function TestShiftIt.testDefaultWindowShifts()
+    local tests = {
+        {
+            desc = 'shift to the left',
+            action = function () shiftit:left() end,
+            expect = { x = 0, y = 0, w = 600, h = 800 },
+        },
+        {
+            desc = 'shift to the right',
+            action = function() shiftit:right() end,
+            expect = { x = 600, y = 0, w = 600, h = 800 },
+        },
+        {
+            desc = 'shift to the top',
+            action = function() shiftit:up() end,
+            expect = { x = 0, y = 0, w = 1200, h = 400 },
+        },
+        {
+            desc = 'shift to the bottom',
+            action = function() shiftit:down() end,
+            expect = { x = 0, y = 400, w = 1200, h = 400 },
+        },
+        {
+            desc = 'shift to the left top',
+            action = function() shiftit:upleft() end,
+            expect = { x = 0, y = 0, w = 600, h = 400 },
+        },
+        {
+            desc = 'shift to the right top',
+            action = function() shiftit:upright() end,
+            expect = { x = 600, y = 0, w = 600, h = 400 },
+        },
+        {
+            desc = 'shift to the left bottom',
+            action = function() shiftit:botleft() end,
+            expect = { x = 0, y = 400, w = 600, h = 400 },
+        },
+        {
+            desc = 'shift to the right bottom',
+            action = function() shiftit:botright() end,
+            expect = { x = 600, y = 400, w = 600, h = 400 },
+        },
+    }
+    for _, test in pairs(tests) do
+        hsmocks:reset()
+        test.action()
         lu.assertEquals(hsmocks.window.rect, test.expect, test.desc)
     end
 end

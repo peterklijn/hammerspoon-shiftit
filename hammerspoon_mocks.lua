@@ -24,6 +24,7 @@ end
 
 local window = {
     rect = defaultWindowRect,
+    _id = 42,
     _screen = screen,
 }
 
@@ -35,6 +36,10 @@ function window:frame()
     return self.rect
 end
 
+function window:id()
+    return self._id
+end
+
 function window:screen()
     return self._screen
 end
@@ -44,6 +49,16 @@ function window:move(rect, _, _, _)
     lu.assertIsNumber(rect.y)
     lu.assertIsNumber(rect.w)
     lu.assertIsNumber(rect.h)
+    -- If the position contains a period (.), it is a relative coordinate
+    -- so multiple it with the screen size
+    if string.match(tostring(rect.x), '%.') ~= nil then
+        rect = {
+            x = self._screen.rect.x + (rect.x * self._screen.rect.w),
+            y = self._screen.rect.y + (rect.y * self._screen.rect.h),
+            w = rect.w * self._screen.rect.w,
+            h = rect.h * self._screen.rect.h,
+        }
+    end
     self.rect = rect
 end
 
@@ -55,6 +70,7 @@ local mocks = {
 function mocks:reset()
     self.hotkey.bindings = {}
     self.window.rect = defaultWindowRect
+    self.window._id = 42
     self.window._screen.rect = defaultScreenRect
 end
 
