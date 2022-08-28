@@ -79,7 +79,8 @@ function obj:moveToggle(unit)
     -- if the window is not moved or resized, it was already at the required location
     -- if an alernative location is configured, move the window to that location
     local after = self.hs.window.focusedWindow():frame()
-    if before == after then
+    if before.x == after.x and before.y == after.y
+        and before.w == after.w and before.h == after.h then
       self:moveToggle(unit)
     end
   end

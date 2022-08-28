@@ -275,4 +275,81 @@ function TestShiftIt.testDefaultWindowShifts()
     end
 end
 
+function TestShiftIt.testMultipleWindowSizeSteps()
+    shiftit:setSteps({ 50, 75, 25 }, { 50 }, true)
+    local tests = {
+        {
+            desc = 'shift to the left through every option once',
+            action = function() shiftit:left() end,
+            expectSteps = {
+                { x = 0, y = 0, w = 600, h = 800 },
+                { x = 0, y = 0, w = 900, h = 800 },
+                { x = 0, y = 0, w = 300, h = 800 },
+            },
+        },
+        {
+            desc = 'shift to the right bottom through every option twice',
+            action = function() shiftit:botright() end,
+            expectSteps = {
+                { x = 600, y = 400, w = 600, h = 400 },
+                { x = 300, y = 400, w = 900, h = 400 },
+                { x = 900, y = 400, w = 300, h = 400 },
+                { x = 600, y = 400, w = 600, h = 400 },
+                { x = 300, y = 400, w = 900, h = 400 },
+                { x = 900, y = 400, w = 300, h = 400 },
+            },
+        },
+    }
+    for _, test in pairs(tests) do
+        hsmocks:reset()
+        for i, expect in pairs(test.expectSteps) do
+            test.action()
+            lu.assertEquals(hsmocks.window.rect, expect, test.desc .. '> step ' .. i)
+        end
+    end
+end
+
+function TestShiftIt.testMultipleWindowSizeStepsWithMultipleWindows()
+    shiftit:setSteps({ 50, 75, 25 }, { 50 }, true)
+    local windowId1 = 99
+    local windowId2 = 88
+
+    hsmocks.window._id = windowId1
+    shiftit:left()
+    lu.assertEquals(hsmocks.window.rect, { x = 0, y = 0, w = 600, h = 800 })
+    shiftit:left()
+    lu.assertEquals(hsmocks.window.rect, { x = 0, y = 0, w = 900, h = 800 })
+
+    -- Mock switching windows, set the window size to differt from the last rect
+    hsmocks.window._id = windowId2
+    hsmocks.window.rect = { x = 100, y = 100, w = 600, h = 500 }
+    shiftit:right()
+    lu.assertEquals(hsmocks.window.rect, { x = 600, y = 0, w = 600, h = 800 })
+    shiftit:right()
+    lu.assertEquals(hsmocks.window.rect, { x = 300, y = 0, w = 900, h = 800 })
+    shiftit:right()
+    lu.assertEquals(hsmocks.window.rect, { x = 900, y = 0, w = 300, h = 800 })
+
+    -- Mock switching windows, set the window size to the last size of this window
+    hsmocks.window._id = windowId1
+    hsmocks.window.rect = { x = 0, y = 0, w = 900, h = 800 }
+    shiftit:left()
+    -- because the window was switched, we start at the beginning of the cycle, and expect the 50% value
+    lu.assertEquals(hsmocks.window.rect, { x = 0, y = 0, w = 600, h = 800 })
+
+    -- Mock switching windows, set the window size to the last size of this window
+    hsmocks.window._id = windowId2
+    hsmocks.window.rect = { x = 900, y = 0, w = 300, h = 800 }
+    shiftit:right()
+    lu.assertEquals(hsmocks.window.rect, { x = 600, y = 0, w = 600, h = 800 })
+
+    -- Mock switching windows, set the window size to the last size of this window
+    hsmocks.window._id = windowId1
+    hsmocks.window.rect = { x = 0, y = 0, w = 600, h = 800 }
+    shiftit:left()
+    -- because the window was switched, we start at the beginning of the cycle, and expect the 50% value
+    -- but because this did not cause any change, the function will call itself once, going to the 75% value
+    lu.assertEquals(hsmocks.window.rect, { x = 0, y = 0, w = 900, h = 800 })
+end
+
 os.exit(lu.LuaUnit.run())
