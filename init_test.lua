@@ -165,4 +165,50 @@ function TestShiftIt.testResizeWindowInStepsStickingToCorners()
     end
 end
 
+function TestShiftIt.testResizeWindowInStepsEdgeCases()
+    local tests = {
+        {
+            desc = 'does not exceed screen width',
+            before = { x = 5, y = 200, w = 1190, h = 400 },
+            expect = { x = 0, y = 134, w = 1200, h = 532 },
+            increase = true,
+        },
+        {
+            desc = 'does not exceed screen height',
+            before = { x = 200, y = 5, w = 800, h = 790 },
+            expect = { x = 100, y = 0, w = 1000, h = 800 },
+            increase = true,
+        },
+        {
+            desc = 'does not exceed screen size',
+            before = { x = 5, y = 5, w = 1190, h = 790 },
+            expect = { x = 0, y = 0, w = 1200, h = 800 },
+            increase = true,
+        },
+        {
+            desc = 'does not become too narrow',
+            before = { x = 0, y = 0, w = 300, h = 800 },
+            expect = { x = 0, y = 66, w = 300, h = 668 },
+            increase = false,
+        },
+        {
+            desc = 'does not become too short',
+            before = { x = 0, y = 0, w = 1200, h = 198 },
+            expect = { x = 100, y = 0, w = 1000, h = 198 },
+            increase = false,
+        },
+        {
+            desc = 'does not become too tiny',
+            before = { x = 100, y = 100, w = 300, h = 198 },
+            expect = { x = 100, y = 100, w = 300, h = 198 },
+            increase = false,
+        },
+    }
+    for _, test in pairs(tests) do
+        hsmocks.window.rect = test.before
+        shiftit:resizeWindowInSteps(test.increase)
+        lu.assertEquals(hsmocks.window.rect, test.expect, test.desc)
+    end
+end
+
 os.exit(lu.LuaUnit.run())
