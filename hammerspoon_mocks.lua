@@ -4,6 +4,9 @@ local hotkey = {
     bindings = {},
 }
 
+local defaultScreenRect = { x = 0, y = 0, w = 1200, h = 800 }
+local defaultWindowRect = { x = 100, y = 100, w = 1000, h = 600 }
+
 function hotkey.bind(mods, key, fn)
     lu.assertNotNil(mods)
     lu.assertNotNil(key)
@@ -12,7 +15,7 @@ function hotkey.bind(mods, key, fn)
 end
 
 local screen = {
-    rect = { x = 0, y = 0, w = 1200, h = 800 },
+    rect = defaultScreenRect,
 }
 
 function screen:frame()
@@ -20,7 +23,7 @@ function screen:frame()
 end
 
 local window = {
-    rect = { x = 0, y = 0, w = 1200, h = 800 },
+    rect = defaultWindowRect,
     _screen = screen,
 }
 
@@ -51,6 +54,8 @@ local mocks = {
 
 function mocks:reset()
     self.hotkey.bindings = {}
+    self.window.rect = defaultWindowRect
+    self.window._screen.rect = defaultScreenRect
 end
 
 return mocks
