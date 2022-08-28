@@ -50,11 +50,11 @@ local units = {
   maximum = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
 
-local function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0) end
+function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
 
-local function resizeWindowInSteps(increment)
-  local screen = hs.window.focusedWindow():screen():frame()
-  local window = hs.window.focusedWindow():frame()
+function obj:resizeWindowInSteps(increment)
+  local screen = self.hs.window.focusedWindow():screen():frame()
+  local window = self.hs.window.focusedWindow():frame()
   local wStep = math.floor(screen.w / 12)
   local hStep = math.floor(screen.h / 12)
   local x, y, w, h = window.x, window.y, window.w, window.h
@@ -107,44 +107,44 @@ local     noChange = true
       h = notMinHeight and h - hStep * 2 or h
     end
   end
-  hs.window.focusedWindow():move({ x = x, y = y, w = w, h = h }, nil, true, 0)
+  self:move({ x = x, y = y, w = w, h = h })
 end
 
-function obj.left() move(units.left50, nil, true, 0) end
+function obj:left() self:move(units.left50) end
 
-function obj.right() move(units.right50, nil, true, 0) end
+function obj:right() self:move(units.right50) end
 
-function obj.up() move(units.top50, nil, true, 0) end
+function obj:up() self:move(units.top50) end
 
-function obj.down() move(units.bot50, nil, true, 0) end
+function obj:down() self:move(units.bot50) end
 
-function obj.upleft() move(units.upleft50, nil, true, 0) end
+function obj:upleft() self:move(units.upleft50) end
 
-function obj.upright() move(units.upright50, nil, true, 0) end
+function obj:upright() self:move(units.upright50) end
 
-function obj.botleft() move(units.botleft50, nil, true, 0) end
+function obj:botleft() self:move(units.botleft50) end
 
-function obj.botright() move(units.botright50, nil, true, 0) end
+function obj:botright() self:move(units.botright50) end
 
-function obj.maximum() move(units.maximum, nil, true, 0) end
+function obj:maximum() self:move(units.maximum) end
 
-function obj.toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
+function obj:toggleFullScreen() self.hs.window.focusedWindow():toggleFullScreen() end
 
-function obj.toggleZoom() hs.window.focusedWindow():toggleZoom() end
+function obj:toggleZoom() self.hs.window.focusedWindow():toggleZoom() end
 
-function obj.center() hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
+function obj:center() self.hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
 
-function obj.nextScreen()
-  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true, 0)
+function obj:nextScreen()
+  self.hs.window.focusedWindow():moveToScreen(self.hs.window.focusedWindow():screen():next(), false, true, 0)
 end
 
-function obj.prevScreen()
-  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true, 0)
+function obj:prevScreen()
+  self.hs.window.focusedWindow():moveToScreen(self.hs.window.focusedWindow():screen():previous(), false, true, 0)
 end
 
-function obj.resizeOut() resizeWindowInSteps(true) end
+function obj:resizeOut() self:resizeWindowInSteps(true) end
 
-function obj.resizeIn() resizeWindowInSteps(false) end
+function obj:resizeIn() self:resizeWindowInSteps(false) end
 
 --- HammerspoonShiftIt:bindHotkeys(mapping)
 --- Method
