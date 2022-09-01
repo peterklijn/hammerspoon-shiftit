@@ -350,6 +350,11 @@ function TestShiftIt.testMultipleWindowSizeStepsWithMultipleWindows()
     -- because the window was switched, we start at the beginning of the cycle, and expect the 50% value
     -- but because this did not cause any change, the function will call itself once, going to the 75% value
     lu.assertEquals(hsmocks.window.rect, { x = 0, y = 0, w = 900, h = 800 })
+
+    shiftit:maximum()
+    shiftit:left()
+    -- because the window maximised, we expect the cycle to restart
+    lu.assertEquals(hsmocks.window.rect, { x = 0, y = 0, w = 600, h = 800 })
 end
 
 os.exit(lu.LuaUnit.run())

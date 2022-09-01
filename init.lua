@@ -160,13 +160,19 @@ function obj:botleft() self:moveToggle(units.botleft) end
 
 function obj:botright() self:moveToggle(units.botright) end
 
-function obj:maximum() self:move(units.maximum) end
+function obj:maximum()
+  latestMove.direction = 'maximum'
+  self:move(units.maximum)
+end
 
 function obj:toggleFullScreen() self.hs.window.focusedWindow():toggleFullScreen() end
 
 function obj:toggleZoom() self.hs.window.focusedWindow():toggleZoom() end
 
-function obj:center() self.hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
+function obj:center()
+  latestMove.direction = 'center'
+  self.hs.window.focusedWindow():centerOnScreen(nil, true, 0)
+ end
 
 function obj:nextScreen()
   self.hs.window.focusedWindow():moveToScreen(self.hs.window.focusedWindow():screen():next(), false, true, 0)
