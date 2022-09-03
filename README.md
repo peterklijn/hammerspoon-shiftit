@@ -12,7 +12,7 @@ Install Hammerspoon if you haven't yet. Download the [latest release here](https
 
 Alternatively you can install it using brew:
 ```bash
-brew install --cask hammerspoon 
+brew install --cask hammerspoon
 ```
 
 #### Step 2
@@ -112,22 +112,22 @@ The default key mapping looks like this:
 
 ```lua
 {
-  left = {{ 'ctrl', 'alt', 'cmd' }, 'left' },
-  right = {{ 'ctrl', 'alt', 'cmd' }, 'right' },
-  up = {{ 'ctrl', 'alt', 'cmd' }, 'up' },
-  down = {{ 'ctrl', 'alt', 'cmd' }, 'down' },
-  upleft = {{ 'ctrl', 'alt', 'cmd' }, '1' },
-  upright = {{ 'ctrl', 'alt', 'cmd' }, '2' },
-  botleft = {{ 'ctrl', 'alt', 'cmd' }, '3' },
-  botright = {{ 'ctrl', 'alt', 'cmd' }, '4' },
-  maximum = {{ 'ctrl', 'alt', 'cmd' }, 'm' },
-  toggleFullScreen = {{ 'ctrl', 'alt', 'cmd' }, 'f' },
-  toggleZoom = {{ 'ctrl', 'alt', 'cmd' }, 'z' },
-  center = {{ 'ctrl', 'alt', 'cmd' }, 'c' },
-  nextScreen = {{ 'ctrl', 'alt', 'cmd' }, 'n' },
-  previousScreen = {{ 'ctrl', 'alt', 'cmd' }, 'p' },
-  resizeOut = {{ 'ctrl', 'alt', 'cmd' }, '=' },
-  resizeIn = {{ 'ctrl', 'alt', 'cmd' }, '-' }
+  left = { { 'ctrl', 'alt', 'cmd' }, 'left' },
+  right = { { 'ctrl', 'alt', 'cmd' }, 'right' },
+  up = { { 'ctrl', 'alt', 'cmd' }, 'up' },
+  down = { { 'ctrl', 'alt', 'cmd' }, 'down' },
+  upleft = { { 'ctrl', 'alt', 'cmd' }, '1' },
+  upright = { { 'ctrl', 'alt', 'cmd' }, '2' },
+  botleft = { { 'ctrl', 'alt', 'cmd' }, '3' },
+  botright = { { 'ctrl', 'alt', 'cmd' }, '4' },
+  maximum = { { 'ctrl', 'alt', 'cmd' }, 'm' },
+  toggleFullScreen = { { 'ctrl', 'alt', 'cmd' }, 'f' },
+  toggleZoom = { { 'ctrl', 'alt', 'cmd' }, 'z' },
+  center = { { 'ctrl', 'alt', 'cmd' }, 'c' },
+  nextScreen = { { 'ctrl', 'alt', 'cmd' }, 'n' },
+  previousScreen = { { 'ctrl', 'alt', 'cmd' }, 'p' },
+  resizeOut = { { 'ctrl', 'alt', 'cmd' }, '=' },
+  resizeIn = { { 'ctrl', 'alt', 'cmd' }, '-' }
 }
 ```
 
@@ -136,10 +136,13 @@ The default key mapping looks like this:
 You can pass the part of the key mappings that you want to override to the `bindHotkeys()` function. For example:
 
 ```lua
+-- Use Vim arrow keys
 spoon.ShiftIt:bindHotkeys({
-  upleft = {{ 'ctrl', 'alt', 'cmd' }, 'q' },
-  upright = {{ 'ctrl', 'alt', 'cmd' }, 'w' },
-});
+  left = { { 'ctrl', 'alt', 'cmd' }, 'h' },
+  down = { { 'ctrl', 'alt', 'cmd' }, 'j' },
+  up = { { 'ctrl', 'alt', 'cmd' }, 'k' },
+  right = { { 'ctrl', 'alt', 'cmd' }, 'l' },
+})
 ```
 
 ## Alternative installations
