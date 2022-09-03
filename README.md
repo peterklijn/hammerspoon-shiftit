@@ -46,6 +46,13 @@ Go to `System Preferences > Security & Privacy > Accessibility` and make sure Ha
 
 _If you just enabled permissions for Hammerspoon, you might need to restart the application for the permissions to take effect._
 
+#### Step 5 (optional)
+
+Configure the Shiftit spoon to your preference.
+
+- [Multiple window cycle sizes](https://github.com/peterklijn/hammerspoon-shiftit#configure-multiple-window-cycle-sizes) allows you to override the default 50% window size for snapping to [sides](https://github.com/peterklijn/hammerspoon-shiftit#snap-to-sides) and [corners](https://github.com/peterklijn/hammerspoon-shiftit#snap-to-corners)
+- [Override key mappings](https://github.com/peterklijn/hammerspoon-shiftit#overriding-key-mappings) allows you to override the default key bindings.
+
 The ShiftIt spoon is now ready to use, enjoy.
 
 Having issues? Check out the [Known issues](https://github.com/peterklijn/hammerspoon-shiftit#known-issues) section, have a look in the [issues section](https://github.com/peterklijn/hammerspoon-shiftit/issues), or create a new issue.
@@ -130,6 +137,17 @@ The default key mapping looks like this:
   resizeIn = { { 'ctrl', 'alt', 'cmd' }, '-' }
 }
 ```
+
+### Configure multiple window cycle sizes
+
+You can configure multiple window cycle sizes by adding the following line after loading the ShiftIt spoon:
+
+```lua
+spoon.ShiftIt:setWindowCyclingSizes({ 50, 33, 67 }, { 50 })
+```
+
+The first argument (`{ 50, 33, 67 }`) sets the horizontal window cycle sizes, in the provided order.
+The second argument (`{ 50 }`) sets the vertical window cycle sizes, in this example it only sets one.
 
 ### Overriding key mappings
 
