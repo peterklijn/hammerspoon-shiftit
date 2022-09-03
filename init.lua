@@ -59,29 +59,29 @@ local latestMove = {
 
 function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
 
-function obj:moveToggle(unit)
+function obj:moveWithCycles(unitFn)
   local windowId = self.hs.window.focusedWindow():id()
-  local sameMoveAction = latestMove.windowId == windowId and latestMove.direction == unit
+  local sameMoveAction = latestMove.windowId == windowId and latestMove.direction == unitFn
   if sameMoveAction then
-    latestMove.stepX = obj.nextStepsX[latestMove.stepX]
-    latestMove.stepY = obj.nextStepsY[latestMove.stepY]
+    latestMove.stepX = obj.nextCycleSizeX[latestMove.stepX]
+    latestMove.stepY = obj.nextCycleSizeY[latestMove.stepY]
   else
-    latestMove.stepX = obj.moveStepsX[1]
-    latestMove.stepY = obj.moveStepsY[1]
+    latestMove.stepX = obj.cycleSizesX[1]
+    latestMove.stepY = obj.cycleSizesY[1]
   end
   latestMove.windowId = windowId
-  latestMove.direction = unit
+  latestMove.direction = unitFn
 
   local before = self.hs.window.focusedWindow():frame()
-  self:move(unit(latestMove.stepX, latestMove.stepY))
+  self:move(unitFn(latestMove.stepX, latestMove.stepY))
 
   if not sameMoveAction then
-    -- if the window is not moved or resized, it was already at the required location
-    -- if an alernative location is configured, move the window to that location
+    -- if the window is not moved or resized, it was already at the required location,
+    -- in that case we'll call this method again, so it will go to the next cycle.
     local after = self.hs.window.focusedWindow():frame()
     if before.x == after.x and before.y == after.y
         and before.w == after.w and before.h == after.h then
-      self:moveToggle(unit)
+      self:moveWithCycles(unitFn)
     end
   end
 end
@@ -144,21 +144,21 @@ function obj:resizeWindowInSteps(increment)
   self:move({ x = x, y = y, w = w, h = h })
 end
 
-function obj:left() self:moveToggle(units.left) end
+function obj:left() self:moveWithCycles(units.left) end
 
-function obj:right() self:moveToggle(units.right) end
+function obj:right() self:moveWithCycles(units.right) end
 
-function obj:up() self:moveToggle(units.top) end
+function obj:up() self:moveWithCycles(units.top) end
 
-function obj:down() self:moveToggle(units.bot) end
+function obj:down() self:moveWithCycles(units.bot) end
 
-function obj:upleft() self:moveToggle(units.upleft) end
+function obj:upleft() self:moveWithCycles(units.upleft) end
 
-function obj:upright() self:moveToggle(units.upright) end
+function obj:upright() self:moveWithCycles(units.upright) end
 
-function obj:botleft() self:moveToggle(units.botleft) end
+function obj:botleft() self:moveWithCycles(units.botleft) end
 
-function obj:botright() self:moveToggle(units.botright) end
+function obj:botright() self:moveWithCycles(units.botright) end
 
 function obj:maximum()
   latestMove.direction = 'maximum'
@@ -247,9 +247,9 @@ local function join(items, separator)
   return res
 end
 
-function obj:setSteps(stepsX, stepsY, skip_print)
+function obj:setWindowCyclingSizes(stepsX, stepsY, skip_print)
   if #stepsX < 1 or #stepsY < 1 then
-    print('Invalid arguments in setSteps, both dimensions should have at least 1 step')
+    print('Invalid arguments in setWindowCyclingSizes, both dimensions should have at least 1 step')
     return
   end
   local function listToNextMap(list)
@@ -261,18 +261,18 @@ function obj:setSteps(stepsX, stepsY, skip_print)
     return res
   end
 
-  self.moveStepsX = stepsX
-  self.moveStepsY = stepsY
-  self.nextStepsX = listToNextMap(stepsX)
-  self.nextStepsY = listToNextMap(stepsY)
+  self.cycleSizesX = stepsX
+  self.cycleSizesY = stepsY
+  self.nextCycleSizeX = listToNextMap(stepsX)
+  self.nextCycleSizeY = listToNextMap(stepsY)
 
   if not skip_print then
-    print('Steps for horizontal:', join(stepsX, ' -> '))
-    print('Steps for vertical:', join(stepsY, ' -> '))
+    print('Cycle sizes for horizontal:', join(stepsX, ' -> '))
+    print('Cycle sizes for vertical:', join(stepsY, ' -> '))
   end
 end
 
 -- Set default steps to 50%, as it's the ShiftIt default
-obj:setSteps({ 50 }, { 50 }, true)
+obj:setWindowCyclingSizes({ 50 }, { 50 }, true)
 
 return obj

@@ -50,7 +50,7 @@ function window:move(rect, _, _, _)
     lu.assertIsNumber(rect.w)
     lu.assertIsNumber(rect.h)
     -- If the position contains a period (.), it is a relative coordinate
-    -- so multiple it with the screen size
+    -- so multiply it with the screen size
     if string.match(tostring(rect.x), '%.') ~= nil then
         rect = {
             x = self._screen.rect.x + (rect.x * self._screen.rect.w),

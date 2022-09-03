@@ -10,7 +10,7 @@ shiftit.hs = hsmocks
 
 function TestShiftIt.setUp()
     hsmocks:reset()
-    shiftit:setSteps({ 50 }, { 50 }, true)
+    shiftit:setWindowCyclingSizes({ 50 }, { 50 }, true)
 end
 
 function TestShiftIt.testBindDefault()
@@ -213,16 +213,16 @@ function TestShiftIt.testResizeWindowInStepsEdgeCases()
 end
 
 function TestShiftIt.testInitialiseSteps()
-    lu.assertEquals(shiftit.moveStepsX, { 50 })
-    lu.assertEquals(shiftit.moveStepsY, { 50 })
-    lu.assertEquals(shiftit.nextStepsX, { [50] = 50 })
-    lu.assertEquals(shiftit.nextStepsY, { [50] = 50 })
+    lu.assertEquals(shiftit.cycleSizesX, { 50 })
+    lu.assertEquals(shiftit.cycleSizesY, { 50 })
+    lu.assertEquals(shiftit.nextCycleSizeX, { [50] = 50 })
+    lu.assertEquals(shiftit.nextCycleSizeY, { [50] = 50 })
 
-    shiftit:setSteps({ 80, 60, 40 }, { 75, 50, 25 }, true)
-    lu.assertEquals(shiftit.moveStepsX, { 80, 60, 40 })
-    lu.assertEquals(shiftit.moveStepsY, { 75, 50, 25 })
-    lu.assertEquals(shiftit.nextStepsX, { [40] = 80, [60] = 40, [80] = 60 })
-    lu.assertEquals(shiftit.nextStepsY, { [25] = 75, [50] = 25, [75] =50 })
+    shiftit:setWindowCyclingSizes({ 80, 60, 40 }, { 75, 50, 25 }, true)
+    lu.assertEquals(shiftit.cycleSizesX, { 80, 60, 40 })
+    lu.assertEquals(shiftit.cycleSizesY, { 75, 50, 25 })
+    lu.assertEquals(shiftit.nextCycleSizeX, { [40] = 80, [60] = 40, [80] = 60 })
+    lu.assertEquals(shiftit.nextCycleSizeY, { [25] = 75, [50] = 25, [75] =50 })
 end
 
 function TestShiftIt.testDefaultWindowShifts()
@@ -276,7 +276,7 @@ function TestShiftIt.testDefaultWindowShifts()
 end
 
 function TestShiftIt.testMultipleWindowSizeSteps()
-    shiftit:setSteps({ 50, 75, 25 }, { 50 }, true)
+    shiftit:setWindowCyclingSizes({ 50, 75, 25 }, { 50 }, true)
     local tests = {
         {
             desc = 'shift to the left through every option once',
@@ -310,7 +310,7 @@ function TestShiftIt.testMultipleWindowSizeSteps()
 end
 
 function TestShiftIt.testMultipleWindowSizeStepsWithMultipleWindows()
-    shiftit:setSteps({ 50, 75, 25 }, { 50 }, true)
+    shiftit:setWindowCyclingSizes({ 50, 75, 25 }, { 50 }, true)
     local windowId1 = 99
     local windowId2 = 88
 
