@@ -149,6 +149,10 @@ spoon.ShiftIt:setWindowCyclingSizes({ 50, 33, 67 }, { 50 })
 The first argument (`{ 50, 33, 67 }`) sets the horizontal window cycle sizes, in the provided order.
 The second argument (`{ 50 }`) sets the vertical window cycle sizes, in this example it only sets one.
 
+The above settings will toggle the window through these steps, when repeatingly hitting `ctrl(^) + alt(⌥) + cmd(⌘) + left`:
+
+![Window Cycling Sizes visualised for left action](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/window-cycling-sizes-visualised.png?raw=true)
+
 ### Overriding key mappings
 
 You can pass the part of the key mappings that you want to override to the `bindHotkeys()` function. For example:
