@@ -10,4 +10,11 @@ ci-lint:
 ci-test:
 	docker-compose -f .docker/docker-compose.ci.yaml run hammerspoon-shiftit-ci make test
 
-.PHONY: ci-init ci-lint
+package:
+	rm -rf Spoons
+	mkdir -p Spoons/ShiftIt.spoon
+	cp init.lua Spoons/ShiftIt.spoon/init.lua
+	(cd Spoons && zip -r ShiftIt.spoon.zip ShiftIt.spoon)
+	rm -r Spoons/ShiftIt.spoon
+
+.PHONY: ci-init ci-lint ci-test package
