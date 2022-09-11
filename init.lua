@@ -11,7 +11,7 @@ obj.__index = obj
 
 -- Metadata
 obj.name = "HammerspoonShiftIt"
-obj.version = "1.0"
+obj.version = "1.1"
 obj.author = "Peter Klijn"
 obj.homepage = "https://github.com/peterklijn/hammerspoon-shiftit"
 obj.license = "https://github.com/peterklijn/hammerspoon-shiftit/blob/master/LICENSE.md"
@@ -37,20 +37,54 @@ obj.mapping = {
 }
 
 local units = {
-  right50 = { x = 0.50, y = 0.00, w = 0.50, h = 1.00 },
-  left50  = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
-  top50   = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
-  bot50   = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
+  left  = function(x, _) return { x = 0.00, y = 0.00, w = x / 100, h = 1.00 } end,
+  right = function(x, _) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = 1.00 } end,
+  top   = function(_, y) return { x = 0.00, y = 0.00, w = 1.00, h = y / 100 } end,
+  bot   = function(_, y) return { x = 0.00, y = 1 - (y / 100), w = 1.00, h = y / 100 } end,
 
-  upleft50   = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
-  upright50  = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
-  botleft50  = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
-  botright50 = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
+  upleft   = function(x, y) return { x = 0.00, y = 0.00, w = x / 100, h = y / 100 } end,
+  upright  = function(x, y) return { x = 1 - (x / 100), y = 0.00, w = x / 100, h = y / 100 } end,
+  botleft  = function(x, y) return { x = 0.00, y = 1 - (y / 100), w = x / 100, h = y / 100 } end,
+  botright = function(x, y) return { x = 1 - (x / 100), y = 1 - (y / 100), w = x / 100, h = y / 100 } end,
 
   maximum = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
 }
 
+local latestMove = {
+  windowId = -1,
+  direction = 'unknown',
+  stepX = -1,
+  stepY = -1,
+}
+
 function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
+
+function obj:moveWithCycles(unitFn)
+  local windowId = self.hs.window.focusedWindow():id()
+  local sameMoveAction = latestMove.windowId == windowId and latestMove.direction == unitFn
+  if sameMoveAction then
+    latestMove.stepX = obj.nextCycleSizeX[latestMove.stepX]
+    latestMove.stepY = obj.nextCycleSizeY[latestMove.stepY]
+  else
+    latestMove.stepX = obj.cycleSizesX[1]
+    latestMove.stepY = obj.cycleSizesY[1]
+  end
+  latestMove.windowId = windowId
+  latestMove.direction = unitFn
+
+  local before = self.hs.window.focusedWindow():frame()
+  self:move(unitFn(latestMove.stepX, latestMove.stepY))
+
+  if not sameMoveAction then
+    -- if the window is not moved or resized, it was already at the required location,
+    -- in that case we'll call this method again, so it will go to the next cycle.
+    local after = self.hs.window.focusedWindow():frame()
+    if before.x == after.x and before.y == after.y
+        and before.w == after.w and before.h == after.h then
+      self:moveWithCycles(unitFn)
+    end
+  end
+end
 
 function obj:resizeWindowInSteps(increment)
   local screen = self.hs.window.focusedWindow():screen():frame()
@@ -110,29 +144,35 @@ function obj:resizeWindowInSteps(increment)
   self:move({ x = x, y = y, w = w, h = h })
 end
 
-function obj:left() self:move(units.left50) end
+function obj:left() self:moveWithCycles(units.left) end
 
-function obj:right() self:move(units.right50) end
+function obj:right() self:moveWithCycles(units.right) end
 
-function obj:up() self:move(units.top50) end
+function obj:up() self:moveWithCycles(units.top) end
 
-function obj:down() self:move(units.bot50) end
+function obj:down() self:moveWithCycles(units.bot) end
 
-function obj:upleft() self:move(units.upleft50) end
+function obj:upleft() self:moveWithCycles(units.upleft) end
 
-function obj:upright() self:move(units.upright50) end
+function obj:upright() self:moveWithCycles(units.upright) end
 
-function obj:botleft() self:move(units.botleft50) end
+function obj:botleft() self:moveWithCycles(units.botleft) end
 
-function obj:botright() self:move(units.botright50) end
+function obj:botright() self:moveWithCycles(units.botright) end
 
-function obj:maximum() self:move(units.maximum) end
+function obj:maximum()
+  latestMove.direction = 'maximum'
+  self:move(units.maximum)
+end
 
 function obj:toggleFullScreen() self.hs.window.focusedWindow():toggleFullScreen() end
 
 function obj:toggleZoom() self.hs.window.focusedWindow():toggleZoom() end
 
-function obj:center() self.hs.window.focusedWindow():centerOnScreen(nil, true, 0) end
+function obj:center()
+  latestMove.direction = 'center'
+  self.hs.window.focusedWindow():centerOnScreen(nil, true, 0)
+ end
 
 function obj:nextScreen()
   self.hs.window.focusedWindow():moveToScreen(self.hs.window.focusedWindow():screen():next(), false, true, 0)
@@ -195,5 +235,44 @@ function obj:bindHotkeys(mapping)
 
   return self
 end
+
+local function join(items, separator)
+  local res = ''
+  for _, item in pairs(items) do
+    if res ~= '' then
+      res = res .. separator
+    end
+    res = res .. item
+  end
+  return res
+end
+
+function obj:setWindowCyclingSizes(stepsX, stepsY, skip_print)
+  if #stepsX < 1 or #stepsY < 1 then
+    print('Invalid arguments in setWindowCyclingSizes, both dimensions should have at least 1 step')
+    return
+  end
+  local function listToNextMap(list)
+    local res = {}
+    for i, item in ipairs(list) do
+      local prev = (list[i - 1] == nil and list[#list] or list[i - 1])
+      res[prev] = item
+    end
+    return res
+  end
+
+  self.cycleSizesX = stepsX
+  self.cycleSizesY = stepsY
+  self.nextCycleSizeX = listToNextMap(stepsX)
+  self.nextCycleSizeY = listToNextMap(stepsY)
+
+  if not skip_print then
+    print('Cycle sizes for horizontal:', join(stepsX, ' -> '))
+    print('Cycle sizes for vertical:', join(stepsY, ' -> '))
+  end
+end
+
+-- Set default steps to 50%, as it's the ShiftIt default
+obj:setWindowCyclingSizes({ 50 }, { 50 }, true)
 
 return obj

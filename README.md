@@ -12,7 +12,7 @@ Install Hammerspoon if you haven't yet. Download the [latest release here](https
 
 Alternatively you can install it using brew:
 ```bash
-brew install --cask hammerspoon 
+brew install --cask hammerspoon
 ```
 
 #### Step 2
@@ -45,6 +45,13 @@ Make sure Hammerspoon has the 'Accessibility' permissions. Without those permiss
 Go to `System Preferences > Security & Privacy > Accessibility` and make sure Hammerspoon.app is checked.
 
 _If you just enabled permissions for Hammerspoon, you might need to restart the application for the permissions to take effect._
+
+#### Step 5 (optional)
+
+Configure the Shiftit spoon to your preference.
+
+- [Multiple window cycle sizes](https://github.com/peterklijn/hammerspoon-shiftit#configure-multiple-window-cycle-sizes) allows you to override the default 50% window size for snapping to [sides](https://github.com/peterklijn/hammerspoon-shiftit#snap-to-sides) and [corners](https://github.com/peterklijn/hammerspoon-shiftit#snap-to-corners)
+- [Override key mappings](https://github.com/peterklijn/hammerspoon-shiftit#overriding-key-mappings) allows you to override the default key bindings.
 
 The ShiftIt spoon is now ready to use, enjoy.
 
@@ -112,34 +119,52 @@ The default key mapping looks like this:
 
 ```lua
 {
-  left = {{ 'ctrl', 'alt', 'cmd' }, 'left' },
-  right = {{ 'ctrl', 'alt', 'cmd' }, 'right' },
-  up = {{ 'ctrl', 'alt', 'cmd' }, 'up' },
-  down = {{ 'ctrl', 'alt', 'cmd' }, 'down' },
-  upleft = {{ 'ctrl', 'alt', 'cmd' }, '1' },
-  upright = {{ 'ctrl', 'alt', 'cmd' }, '2' },
-  botleft = {{ 'ctrl', 'alt', 'cmd' }, '3' },
-  botright = {{ 'ctrl', 'alt', 'cmd' }, '4' },
-  maximum = {{ 'ctrl', 'alt', 'cmd' }, 'm' },
-  toggleFullScreen = {{ 'ctrl', 'alt', 'cmd' }, 'f' },
-  toggleZoom = {{ 'ctrl', 'alt', 'cmd' }, 'z' },
-  center = {{ 'ctrl', 'alt', 'cmd' }, 'c' },
-  nextScreen = {{ 'ctrl', 'alt', 'cmd' }, 'n' },
-  previousScreen = {{ 'ctrl', 'alt', 'cmd' }, 'p' },
-  resizeOut = {{ 'ctrl', 'alt', 'cmd' }, '=' },
-  resizeIn = {{ 'ctrl', 'alt', 'cmd' }, '-' }
+  left = { { 'ctrl', 'alt', 'cmd' }, 'left' },
+  right = { { 'ctrl', 'alt', 'cmd' }, 'right' },
+  up = { { 'ctrl', 'alt', 'cmd' }, 'up' },
+  down = { { 'ctrl', 'alt', 'cmd' }, 'down' },
+  upleft = { { 'ctrl', 'alt', 'cmd' }, '1' },
+  upright = { { 'ctrl', 'alt', 'cmd' }, '2' },
+  botleft = { { 'ctrl', 'alt', 'cmd' }, '3' },
+  botright = { { 'ctrl', 'alt', 'cmd' }, '4' },
+  maximum = { { 'ctrl', 'alt', 'cmd' }, 'm' },
+  toggleFullScreen = { { 'ctrl', 'alt', 'cmd' }, 'f' },
+  toggleZoom = { { 'ctrl', 'alt', 'cmd' }, 'z' },
+  center = { { 'ctrl', 'alt', 'cmd' }, 'c' },
+  nextScreen = { { 'ctrl', 'alt', 'cmd' }, 'n' },
+  previousScreen = { { 'ctrl', 'alt', 'cmd' }, 'p' },
+  resizeOut = { { 'ctrl', 'alt', 'cmd' }, '=' },
+  resizeIn = { { 'ctrl', 'alt', 'cmd' }, '-' }
 }
 ```
+
+### Configure multiple window cycle sizes
+
+You can configure multiple window cycle sizes by adding the following line after loading the ShiftIt spoon:
+
+```lua
+spoon.ShiftIt:setWindowCyclingSizes({ 50, 33, 67 }, { 50 })
+```
+
+The first argument (`{ 50, 33, 67 }`) sets the horizontal window cycle sizes, in the provided order.
+The second argument (`{ 50 }`) sets the vertical window cycle sizes, in this example it only sets one.
+
+The above settings will toggle the window through these steps, when repeatingly hitting `ctrl(^) + alt(⌥) + cmd(⌘) + left`:
+
+![Window Cycling Sizes visualised for left action](https://github.com/peterklijn/hammerspoon-shiftit/blob/master/images/window-cycling-sizes-visualised.png?raw=true)
 
 ### Overriding key mappings
 
 You can pass the part of the key mappings that you want to override to the `bindHotkeys()` function. For example:
 
 ```lua
+-- Use Vim arrow keys
 spoon.ShiftIt:bindHotkeys({
-  upleft = {{ 'ctrl', 'alt', 'cmd' }, 'q' },
-  upright = {{ 'ctrl', 'alt', 'cmd' }, 'w' },
-});
+  left = { { 'ctrl', 'alt', 'cmd' }, 'h' },
+  down = { { 'ctrl', 'alt', 'cmd' }, 'j' },
+  up = { { 'ctrl', 'alt', 'cmd' }, 'k' },
+  right = { { 'ctrl', 'alt', 'cmd' }, 'l' },
+})
 ```
 
 ## Alternative installations

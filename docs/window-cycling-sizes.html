@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .screen {
+                width: 800px;
+                height: 450px;
+                background-color: #fffbf3;
+            }
+
+            .menubar {
+                float: left;
+                width: 792px;
+                height: 12px;
+                padding: 4px;
+                font-size: 12px;
+                background-color: #ddd;
+                color: #777;
+            }
+            .dock {
+                float: left;
+                width: 600px;
+                height: 40px;
+                margin: 0 100px;
+                background-color: #eee;
+                border-radius: 4px;
+            }
+            .icon {
+                float: left;
+                width: 32px;
+                height: 32px;
+                margin: 4px;
+                border-radius: 4px;
+                background: #abcf90
+            }
+            .icon:nth-child(2), .icon:nth-child(6), .icon:nth-child(10), .icon:nth-child(14) {
+                background: #dc9e78
+            }
+            .icon:nth-child(3), .icon:nth-child(7), .icon:nth-child(11), .icon:nth-child(15) {
+                background: #b4bcf7
+            }
+            .icon:nth-child(4), .icon:nth-child(8), .icon:nth-child(12), .icon:nth-child(16) {
+                background: #e7e775;
+            }
+
+            .window-size {
+                float: left;
+                border: solid 1px;
+                margin: 1px;
+            }
+            .window-size span {
+                width: auto;
+                float: right;
+                color: white;
+                font: status-bar;
+                font-size: 12px;
+                padding: 1px 3px;
+            }
+
+
+            .size-a {
+                margin: 0;
+                width: 534px;
+                height: 388px;
+                border-color: green;
+            }
+            .size-a span {
+                background-color: green;
+            }
+
+            .size-b {
+                width: 396px;
+                height: 384px;
+                border-color: red;
+            }
+            .size-b span {
+                background-color: red;
+            }
+            .size-c {
+                width: 256px;
+                height: 380px;
+                border-color: blue;
+            }
+            .size-c span {
+                background-color: blue;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="screen">
+            <div class="menubar"></div>
+            <div class="window-size size-a">
+                <div class="window-size size-b">
+                    <div class="window-size size-c">
+                        <span>step 2: 33%</span>
+                    </div>
+                    <span>step 1: 50%</span>
+                </div>
+                <span>step 3: 67%</span>
+            </div>
+            <div class="dock">
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+                <div class="icon"></div>
+            </div>
+        </div>
+    </body>
+</html>
