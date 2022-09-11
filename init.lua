@@ -14,7 +14,7 @@ obj.name = "HammerspoonShiftIt"
 obj.version = "1.0"
 obj.author = "Peter Klijn"
 obj.homepage = "https://github.com/peterklijn/hammerspoon-shiftit"
-obj.license = ""
+obj.license = "https://github.com/peterklijn/hammerspoon-shiftit/blob/master/LICENSE.md"
 
 obj.mash = { 'ctrl', 'alt', 'cmd' }
 obj.mapping = {
