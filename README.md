@@ -19,7 +19,7 @@ brew install --cask hammerspoon
 
 Make sure Hammerspoon is started (You should see the a Hammerspoon logo in your menubar).
 
-Download the [ShiftIt spoon](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip). Unzip it and open the spoon.
+Download the [ShiftIt spoon](https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip). Unzip the downloaded file and open the spoon (Make sure you open the unzipped `ShiftIt.spoon` file using Finder so Hammerspoon will move it to the correct location).
 
 Hammerspoon should prompt that the newly installed spoon is now available.
 
