@@ -58,6 +58,60 @@ local latestMove = {
   stepY = -1,
 }
 
+local swapPair = {
+  a = -1,
+  b = -1,
+}
+
+function obj:swap()
+  local windowId = self.hs.window.focusedWindow():id()
+  local currentWindow = self.hs.window.focusedWindow():frame()
+
+  local isUnassignAction = swapPair.a ~= -1 and swapPair.a == windowId
+  if isUnassignAction then
+    swapPair.a = -1
+    swapPair.b = -1
+    self:showOverlayText(currentWindow, "Ø")
+    return
+  end
+
+  local isAssignFirstAction = swapPair.a == -1 or swapPair.a == windowId 
+  if isAssignFirstAction then
+    swapPair.a = windowId
+    self:showOverlayText(currentWindow, "A")
+    return
+  end
+
+  local isAssignSecondAction = swapPair.b == -1
+  if isAssignSecondAction then
+    swapPair.b = windowId
+    self:showOverlayText(currentWindow, "B")
+    return
+  end
+
+  local a = self.hs.window.get(swapPair.a):frame()
+  local b = self.hs.window.get(swapPair.b):frame()
+  self:showOverlayText(a, "A")
+  self:showOverlayText(b, "B")
+
+  local aCoords = { x = a.x, y = a.y, w = a.w, h = a.h }
+  local bCoords = { x = b.x, y = b.y, w = b.w, h = b.h }
+
+  self:moveWindow(swapPair.a, bCoords)
+  self:moveWindow(swapPair.b, aCoords)
+end
+
+function obj:showOverlayText(window, text)
+  local elem = self.hs.styledtext.new(text, {font={name="Impact", size=60}, color=self.hs.drawing.color.x11.crimson})
+  local frame = self.hs.geometry.rect(window.x + 120, window.y + 60, 60, 60)
+  
+  local draw = self.hs.drawing.text(frame, elem)
+  draw:setLevel(self.hs.drawing.windowLevels.overlay)
+  draw:show()
+  
+  timer = self.hs.timer.doAfter(0.5, function() draw:delete() draw=nil end)
+end
+
 function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
 
 function obj:moveWindow(windowId, unit) self.hs.window.get(windowId):move(unit, nil, true, 0) end
@@ -176,21 +230,6 @@ function obj:center()
   latestMove.direction = 'center'
   self.hs.window.focusedWindow():centerOnScreen(nil, true, 0)
  end
-
-function obj:swap()
-  if latestMove.windowId == -1 then
-    return
-  end
-
-  local window = self.hs.window.focusedWindow():frame()
-  local x, y, w, h = window.x, window.y, window.w, window.h
-
-  local pWindow = self.hs.window.get(latestMove.windowId):frame()
-  local pWindowX, pWindowY, pWindowW, pWindowH = pWindow.x, pWindow.y, pWindow.w, pWindow.h
-
-  self:move({ x = pWindowX, y = pWindowY, w = pWindowW, h = pWindowH })
-  self:moveWindow(latestMove.windowId, { x = x, y = y, w = w, h = h })
-end
 
 function obj:nextScreen()
   self.hs.window.focusedWindow():moveToScreen(self.hs.window.focusedWindow():screen():next(), false, true, 0)
