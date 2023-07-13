@@ -20,7 +20,7 @@ function TestShiftIt.testBindDefault()
     local expected = {
         'left', 'right', 'up', 'down',
         '1', '2', '3', '4', 'm',
-        'f', 'z', 'c', 's', 'n', 'p', 
+        'f', 'z', 'c', 's', 'n', 'p',
         '=', '-',
     }
     for i, item in pairs(expected) do
