@@ -20,7 +20,7 @@ function TestShiftIt.testBindDefault()
     local expected = {
         'left', 'right', 'up', 'down',
         '1', '2', '3', '4', 'm',
-        'f', 'z', 'c', 'n', 'p', 's',
+        'f', 'z', 'c', 's', 'n', 'p', 
         '=', '-',
     }
     for i, item in pairs(expected) do
@@ -41,7 +41,7 @@ function TestShiftIt.testBindOverrideVimKeys()
     local expected = {
         'h', 'l', 'k', 'j',
         '1', '2', '3', '4', 'm',
-        'f', 'z', 'c', 'n', 'p', 's',
+        'f', 'z', 'c', 's', 'n', 'p',
         '=', '-',
     }
     for i, item in pairs(expected) do
