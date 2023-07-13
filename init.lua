@@ -30,6 +30,7 @@ obj.mapping = {
   toggleFullScreen = { obj.mash, 'f' },
   toggleZoom = { obj.mash, 'z' },
   center = { obj.mash, 'c' },
+  swap = { obj.mash, 's' },
   nextScreen = { obj.mash, 'n' },
   previousScreen = { obj.mash, 'p' },
   resizeOut = { obj.mash, '=' },
@@ -57,7 +58,25 @@ local latestMove = {
   stepY = -1,
 }
 
-function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
+function obj:move(unit) self:moveWindow(self.hs.window.focusedWindow(), unit) end
+
+function obj:moveWindow(window, unit) window:move(unit, nil, true, 0) end
+
+function obj:swap()
+  if latestMove.windowId == -1 then
+    return
+  end
+
+  local window = self.hs.window.focusedWindow():frame()
+  local x, y, w, h = window.x, window.y, window.w, window.h
+
+  local pWindow = self.hs.window.get(latestMove.windowId)
+  local pFrame = pWindow:frame()
+  local pWindowX, pWindowY, pWindowW, pWindowH = pFrame.x, pFrame.y, pFrame.w, pFrame.h
+
+  self:move({ x = pWindowX, y = pWindowY, w = pWindowW, h = pWindowH })
+  self:moveWindow(pWindow, { x = x, y = y, w = w, h = h })
+end
 
 function obj:moveWithCycles(unitFn)
   local windowId = self.hs.window.focusedWindow():id()
@@ -228,6 +247,7 @@ function obj:bindHotkeys(mapping)
   end)
   self.hs.hotkey.bind(self.mapping.toggleZoom[1], self.mapping.toggleZoom[2], function() self:toggleZoom() end)
   self.hs.hotkey.bind(self.mapping.center[1], self.mapping.center[2], function() self:center() end)
+  self.hs.hotkey.bind(self.mapping.swap[1], self.mapping.swap[2], function() self:swap() end)
   self.hs.hotkey.bind(self.mapping.nextScreen[1], self.mapping.nextScreen[2], function() self:nextScreen() end)
   self.hs.hotkey.bind(self.mapping.previousScreen[1], self.mapping.previousScreen[2], function() self:prevScreen() end)
   self.hs.hotkey.bind(self.mapping.resizeOut[1], self.mapping.resizeOut[2], function() self:resizeOut() end)
