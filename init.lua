@@ -102,7 +102,7 @@ function obj:swap()
 end
 
 function obj:showOverlayText(window, text)
-  local elem = self.hs.styledtext.new(text, {font={name="Impact", size=60}, color=self.hs.drawing.color.x11.crimson})
+  local elem = self.hs.styledtext.new(text, {font={name="Helvetica", size=60}, color=self.hs.drawing.color.x11.crimson})
   local frame = self.hs.geometry.rect(window.x + 120, window.y + 60, 60, 60)
 
   local draw = self.hs.drawing.text(frame, elem)
