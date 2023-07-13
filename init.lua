@@ -58,9 +58,9 @@ local latestMove = {
   stepY = -1,
 }
 
-function obj:move(unit) self:moveWindow(self.hs.window.focusedWindow(), unit) end
+function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
 
-function obj:moveWindow(window, unit) window:move(unit, nil, true, 0) end
+function obj:moveWindow(windowId, unit) self.hs.window.get(windowId):move(unit, nil, true, 0) end
 
 function obj:swap()
   if latestMove.windowId == -1 then
@@ -70,12 +70,11 @@ function obj:swap()
   local window = self.hs.window.focusedWindow():frame()
   local x, y, w, h = window.x, window.y, window.w, window.h
 
-  local pWindow = self.hs.window.get(latestMove.windowId)
-  local pFrame = pWindow:frame()
-  local pWindowX, pWindowY, pWindowW, pWindowH = pFrame.x, pFrame.y, pFrame.w, pFrame.h
+  local pWindow = self.hs.window.get(latestMove.windowId):frame()
+  local pWindowX, pWindowY, pWindowW, pWindowH = pWindow.x, pWindow.y, pWindow.w, pWindow.h
 
   self:move({ x = pWindowX, y = pWindowY, w = pWindowW, h = pWindowH })
-  self:moveWindow(pWindow, { x = x, y = y, w = w, h = h })
+  self:moveWindow(latestMove.windowId, { x = x, y = y, w = w, h = h })
 end
 
 function obj:moveWithCycles(unitFn)
