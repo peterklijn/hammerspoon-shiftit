@@ -75,7 +75,7 @@ function obj:swap()
     return
   end
 
-  local isAssignFirstAction = swapPair.a == -1 or swapPair.a == windowId 
+  local isAssignFirstAction = swapPair.a == -1 or swapPair.a == windowId
   if isAssignFirstAction then
     swapPair.a = windowId
     self:showOverlayText(currentWindow, "A")
@@ -104,12 +104,12 @@ end
 function obj:showOverlayText(window, text)
   local elem = self.hs.styledtext.new(text, {font={name="Impact", size=60}, color=self.hs.drawing.color.x11.crimson})
   local frame = self.hs.geometry.rect(window.x + 120, window.y + 60, 60, 60)
-  
+
   local draw = self.hs.drawing.text(frame, elem)
   draw:setLevel(self.hs.drawing.windowLevels.overlay)
   draw:show()
-  
-  timer = self.hs.timer.doAfter(0.5, function() draw:delete() draw=nil end)
+
+  self.hs.timer.doAfter(0.5, function() draw:delete() draw=nil end)
 end
 
 function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) end
