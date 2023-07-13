@@ -64,14 +64,23 @@ local swapPair = {
 }
 
 function obj:swap()
-  local windowId = self.hs.window.focusedWindow():id()
-  local currentWindow = self.hs.window.focusedWindow():frame()
-
-  local isUnassignAction = swapPair.a ~= -1 and swapPair.a == windowId
-  if isUnassignAction then
+  unassign = function () 
     swapPair.a = -1
     swapPair.b = -1
     self:showOverlayText(currentWindow, "Ø")
+  end
+
+  local focusedWindow = self.hs.window.focusedWindow()
+  if focusedWindow == nil then
+    return
+  end
+
+  local windowId = self.hs.window.focusedWindow():id()
+  local currentWindow = self.hs.window.focusedWindow():frame()
+
+  local isUnassignAction = (swapPair.a ~= -1 and swapPair.a == windowId)
+  if isUnassignAction then
+    unassign()
     return
   end
 
@@ -89,19 +98,31 @@ function obj:swap()
     return
   end
 
-  local a = self.hs.window.get(swapPair.a):frame()
-  local b = self.hs.window.get(swapPair.b):frame()
-  self:showOverlayText(a, "A")
-  self:showOverlayText(b, "B")
+
+  local aWindow = self.hs.window.get(swapPair.a)
+  local bWindow = self.hs.window.get(swapPair.b)
+  if aWindow == nil or bWindow == nil then
+    unassign()
+    return
+  end
+
+  local a = aWindow:frame()
+  local b = bWindow:frame()
 
   local aCoords = { x = a.x, y = a.y, w = a.w, h = a.h }
   local bCoords = { x = b.x, y = b.y, w = b.w, h = b.h }
 
   self:moveWindow(swapPair.a, bCoords)
   self:moveWindow(swapPair.b, aCoords)
+  self:showOverlayText(a, "A")
+  self:showOverlayText(b, "B")
 end
 
 function obj:showOverlayText(window, text)
+  if window == nil then
+    window = hs.screen.mainScreen():frame()
+  end
+
   local elem = self.hs.styledtext.new(text, {font={name="Helvetica", size=60}, color=self.hs.drawing.color.x11.crimson})
   local frame = self.hs.geometry.rect(window.x + 120, window.y + 60, 60, 60)
 
