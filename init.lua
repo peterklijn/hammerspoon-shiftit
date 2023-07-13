@@ -62,21 +62,6 @@ function obj:move(unit) self.hs.window.focusedWindow():move(unit, nil, true, 0) 
 
 function obj:moveWindow(windowId, unit) self.hs.window.get(windowId):move(unit, nil, true, 0) end
 
-function obj:swap()
-  if latestMove.windowId == -1 then
-    return
-  end
-
-  local window = self.hs.window.focusedWindow():frame()
-  local x, y, w, h = window.x, window.y, window.w, window.h
-
-  local pWindow = self.hs.window.get(latestMove.windowId):frame()
-  local pWindowX, pWindowY, pWindowW, pWindowH = pWindow.x, pWindow.y, pWindow.w, pWindow.h
-
-  self:move({ x = pWindowX, y = pWindowY, w = pWindowW, h = pWindowH })
-  self:moveWindow(latestMove.windowId, { x = x, y = y, w = w, h = h })
-end
-
 function obj:moveWithCycles(unitFn)
   local windowId = self.hs.window.focusedWindow():id()
   local sameMoveAction = latestMove.windowId == windowId and latestMove.direction == unitFn
@@ -192,6 +177,21 @@ function obj:center()
   self.hs.window.focusedWindow():centerOnScreen(nil, true, 0)
  end
 
+function obj:swap()
+  if latestMove.windowId == -1 then
+    return
+  end
+
+  local window = self.hs.window.focusedWindow():frame()
+  local x, y, w, h = window.x, window.y, window.w, window.h
+
+  local pWindow = self.hs.window.get(latestMove.windowId):frame()
+  local pWindowX, pWindowY, pWindowW, pWindowH = pWindow.x, pWindow.y, pWindow.w, pWindow.h
+
+  self:move({ x = pWindowX, y = pWindowY, w = pWindowW, h = pWindowH })
+  self:moveWindow(latestMove.windowId, { x = x, y = y, w = w, h = h })
+end
+
 function obj:nextScreen()
   self.hs.window.focusedWindow():moveToScreen(self.hs.window.focusedWindow():screen():next(), false, true, 0)
 end
@@ -222,6 +222,7 @@ function obj:resizeIn() self:resizeWindowInSteps(false) end
 ---   * toggleFullScreen
 ---   * toggleZoom
 ---   * center
+---   * swap
 ---   * nextScreen
 ---   * previousScreen
 ---   * resizeOut
