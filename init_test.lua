@@ -15,12 +15,12 @@ end
 
 function TestShiftIt.testBindDefault()
     shiftit:bindHotkeys({})
-    lu.assertEquals(#hsmocks.hotkey.bindings, 16)
+    lu.assertEquals(#hsmocks.hotkey.bindings, 17)
 
     local expected = {
         'left', 'right', 'up', 'down',
         '1', '2', '3', '4', 'm',
-        'f', 'z', 'c', 'n', 'p',
+        'f', 'z', 'c', 's', 'n', 'p',
         '=', '-',
     }
     for i, item in pairs(expected) do
@@ -36,12 +36,12 @@ function TestShiftIt.testBindOverrideVimKeys()
         up = { { 'ctrl', 'alt', 'cmd' }, 'k' },
         right = { { 'ctrl', 'alt', 'cmd' }, 'l' },
     })
-    lu.assertEquals(#hsmocks.hotkey.bindings, 16)
+    lu.assertEquals(#hsmocks.hotkey.bindings, 17)
 
     local expected = {
         'h', 'l', 'k', 'j',
         '1', '2', '3', '4', 'm',
-        'f', 'z', 'c', 'n', 'p',
+        'f', 'z', 'c', 's', 'n', 'p',
         '=', '-',
     }
     for i, item in pairs(expected) do
