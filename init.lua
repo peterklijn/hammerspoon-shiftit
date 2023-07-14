@@ -64,7 +64,8 @@ local swapPair = {
 }
 
 function obj:swap()
-  unassign = function () 
+  local currentWindow = self.hs.window.focusedWindow():frame()
+  local unassign = function ()
     swapPair.a = -1
     swapPair.b = -1
     self:showOverlayText(currentWindow, "Ø")
@@ -76,7 +77,6 @@ function obj:swap()
   end
 
   local windowId = self.hs.window.focusedWindow():id()
-  local currentWindow = self.hs.window.focusedWindow():frame()
 
   local isUnassignAction = (swapPair.a ~= -1 and swapPair.a == windowId)
   if isUnassignAction then
